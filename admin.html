@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>Admin - Registros</title>
+    <link rel="icon" href="trane-favicon.png">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- SheetJS para exportar a Excel -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <style>
+        :root {
+            --primary-color: #00326c;
+            --secondary-color: #e63946;
+            --accent-color: #2a9d8f;
+            --warning-color: #ff9f1c;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            font-size: 14px;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+        }
+
+        .header {
+            background-color: var(--primary-color);
+            padding: 25px 30px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .header-content {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .logo {
+            height: 45px;
+            width: auto;
+        }
+
+        .header-text h1 {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 32px;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+
+        .header-text p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+
+        .controls {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            background-color: white;
+            color: var(--primary-color);
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn:hover {
+            background-color: #f8f9fa;
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background-color: var(--accent-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #238f7a;
+        }
+
+        .btn-danger {
+            background-color: var(--secondary-color);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background-color: #d1343e;
+        }
+
+        .stats-container {
+            padding: 20px 30px;
+            background: var(--light-color);
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 32px;
+            font-weight: 700;
+            color: var(--primary-color);
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--gray-color);
+            font-weight: 600;
+        }
+
+        .filters-container {
+            padding: 20px 30px;
+            background: white;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+        .filters {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .filter-label {
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--gray-color);
+        }
+
+        .filter-select {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            background: white;
+            font-size: 14px;
+            min-width: 150px;
+        }
+
+        .search-box {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            min-width: 250px;
+            flex: 1;
+        }
+
+        .table-container {
+            padding: 0;
+            overflow-x: auto;
+        }
+
+        .users-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 14px;
+        }
+
+        .users-table th {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 15px 12px;
+            text-align: left;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .users-table th:hover {
+            background-color: #003da0;
+        }
+
+        .users-table th.sort-asc::after {
+            content: " ↑";
+        }
+
+        .users-table th.sort-desc::after {
+            content: " ↓";
+        }
+
+        .users-table td {
+            padding: 12px;
+            border-bottom: 1px solid #dee2e6;
+            vertical-align: top;
+        }
+
+        .users-table tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+
+        .users-table tbody tr:nth-child(even) {
+            background-color: #fafafa;
+        }
+
+        .users-table tbody tr:nth-child(even):hover {
+            background-color: #f1f3f4;
+        }
+
+        .email-cell {
+            word-break: break-all;
+        }
+
+        .attendance-yes {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .attendance-no {
+            color: var(--secondary-color);
+            font-weight: 600;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+        }
+
+        .spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: var(--gray-color);
+        }
+
+        .pagination {
+            padding: 20px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--light-color);
+            border-top: 1px solid #dee2e6;
+        }
+
+        .pagination-info {
+            font-size: 14px;
+            color: var(--gray-color);
+        }
+
+        .pagination-controls {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+
+        .pagination-btn {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            background: white;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .pagination-btn:hover:not(:disabled) {
+            background: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        .pagination-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .page-size select {
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            background: white;
+        }
+
+        /* Popups */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .popup {
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-width: 500px;
+            width: 100%;
+            text-align: center;
+            animation: popupIn 0.3s ease-out;
+        }
+
+        @keyframes popupIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .popup-icon {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .popup-success .popup-icon {
+            color: var(--accent-color);
+        }
+
+        .popup h3 {
+            margin-bottom: 15px;
+            color: var(--dark-color);
+            font-size: 24px;
+        }
+
+        .popup p {
+            margin-bottom: 25px;
+            color: var(--gray-color);
+            line-height: 1.5;
+        }
+
+        .popup-btn {
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            min-width: 120px;
+        }
+
+        .popup-btn:hover {
+            background-color: #003da0;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header {
+                padding: 20px;
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .controls {
+                width: 100%;
+                justify-content: flex-start;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .filters {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                min-width: auto;
+            }
+
+            .users-table {
+                font-size: 12px;
+            }
+
+            .users-table th,
+            .users-table td {
+                padding: 8px 6px;
+            }
+
+            .pagination {
+                flex-direction: column;
+                gap: 15px;
+                align-items: stretch;
+            }
+
+            .pagination-controls {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding: 10px;
+            }
+
+            .header-text h1 {
+                font-size: 24px;
+            }
+
+            .btn {
+                padding: 10px 16px;
+                font-size: 12px;
+            }
+
+            .users-table {
+                display: block;
+                overflow-x: auto;
+                white-space: nowrap;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="admin-container">
+        <div class="header">
+            <div class="header-content">
+                <img src="trane-logo.png" alt="Trane" class="logo">
+                <div class="header-text">
+                    <h1>Administración de Registros</h1>
+                    <p>Trane Evento </p>
+                </div>
+            </div>
+            <div class="controls">
+                <button class="btn btn-primary" id="exportExcelBtn">
+                    📊 Exportar a Excel
+                </button>
+                <button class="btn" id="refreshBtn">
+                    🔄 Actualizar
+                </button>
+                <a href="index.html" class="btn">
+                    📝 Ir al Formulario
+                </a>
+            </div>
+        </div>
+
+        <div class="stats-container">
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-number" id="totalUsers">0</div>
+                    <div class="stat-label">Total Registrados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="attendingUsers">0</div>
+                    <div class="stat-label">Confirmaron Asistencia</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="notAttendingUsers">0</div>
+                    <div class="stat-label">No Asistirán</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="todayRegistrations">0</div>
+                    <div class="stat-label">Registros Hoy</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="filters-container">
+            <div class="filters">
+                <div class="filter-group">
+                    <label class="filter-label">Filtrar por Asistencia</label>
+                    <select class="filter-select" id="attendanceFilter">
+                        <option value="all">Todos</option>
+                        <option value="Si">Asisten</option>
+                        <option value="No">No Asisten</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Filtrar por País</label>
+                    <select class="filter-select" id="countryFilter">
+                        <option value="all">Todos los países</option>
+                    </select>
+                </div>
+                <div class="filter-group" style="flex: 1;">
+                    <label class="filter-label">Buscar</label>
+                    <input type="text" class="search-box" id="searchInput" placeholder="Buscar por nombre, email, ciudad...">
+                </div>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table class="users-table" id="usersTable">
+                <thead>
+                    <tr>
+                        <th data-sort="name">Nombre</th>
+                        <th data-sort="email">Email</th>
+                        <th data-sort="attendance">Asistencia</th>
+                        <th data-sort="foodRestriction">Restricción Alimentaria</th>
+                        <th data-sort="country">País</th>
+                        <th data-sort="city">Ciudad</th>
+                        <th data-sort="registrationDate">Fecha Registro</th>
+                        <th data-sort="lastUpdate">Última Actualización</th>
+                    </tr>
+                </thead>
+                <tbody id="usersTableBody">
+                    <!-- Los datos se cargarán aquí dinámicamente -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="loading" id="loadingIndicator">
+            <div class="spinner"></div>
+            <p>Cargando datos de usuarios...</p>
+        </div>
+
+        <div class="no-data" id="noDataMessage" style="display: none;">
+            <p>No se encontraron registros que coincidan con los filtros aplicados.</p>
+        </div>
+
+        <div class="pagination">
+            <div class="pagination-info" id="paginationInfo">
+                Mostrando 0 de 0 registros
+            </div>
+            <div class="pagination-controls">
+                <button class="pagination-btn" id="prevPageBtn" disabled>Anterior</button>
+                <span id="pageInfo">Página 1 de 1</span>
+                <button class="pagination-btn" id="nextPageBtn" disabled>Siguiente</button>
+                <div class="page-size">
+                    <select id="pageSizeSelect">
+                        <option value="10">10 por página</option>
+                        <option value="25" selected>25 por página</option>
+                        <option value="50">50 por página</option>
+                        <option value="100">100 por página</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Popup de éxito -->
+    <div class="popup-overlay" id="successPopup">
+        <div class="popup popup-success">
+            <div class="popup-icon">✓</div>
+            <h3>¡Éxito!</h3>
+            <p id="successMessage">Los datos se han exportado correctamente.</p>
+            <button class="popup-btn" id="successOkBtn">Aceptar</button>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyD7e2gH7-45wi3FaVfrzzgVBc0oyIW4F58",
+            authDomain: "trfrom-b1295.firebaseapp.com",
+            databaseURL: "https://trfrom-b1295-default-rtdb.firebaseio.com",
+            projectId: "trfrom-b1295",
+            storageBucket: "trfrom-b1295.appspot.com",
+            messagingSenderId: "805241083235",
+            appId: "1:805241083235:web:580af805c75fb5c35a6f56",
+            measurementId: "G-WX6FTFHF13"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Variables globales
+        let allUsers = [];
+        let filteredUsers = [];
+        let currentPage = 1;
+        let pageSize = 25;
+        let currentSort = { field: 'registrationDate', direction: 'desc' };
+
+        // Elementos del DOM
+        const usersTableBody = document.getElementById('usersTableBody');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+        const noDataMessage = document.getElementById('noDataMessage');
+        const totalUsersElement = document.getElementById('totalUsers');
+        const attendingUsersElement = document.getElementById('attendingUsers');
+        const notAttendingUsersElement = document.getElementById('notAttendingUsers');
+        const todayRegistrationsElement = document.getElementById('todayRegistrations');
+        const exportExcelBtn = document.getElementById('exportExcelBtn');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const attendanceFilter = document.getElementById('attendanceFilter');
+        const countryFilter = document.getElementById('countryFilter');
+        const searchInput = document.getElementById('searchInput');
+        const prevPageBtn = document.getElementById('prevPageBtn');
+        const nextPageBtn = document.getElementById('nextPageBtn');
+        const pageInfo = document.getElementById('pageInfo');
+        const paginationInfo = document.getElementById('paginationInfo');
+        const pageSizeSelect = document.getElementById('pageSizeSelect');
+        const successPopup = document.getElementById('successPopup');
+        const successOkBtn = document.getElementById('successOkBtn');
+
+        // Cargar datos al iniciar
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUsersData();
+            setupEventListeners();
+        });
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            exportExcelBtn.addEventListener('click', exportToExcel);
+            refreshBtn.addEventListener('click', loadUsersData);
+            attendanceFilter.addEventListener('change', applyFilters);
+            countryFilter.addEventListener('change', applyFilters);
+            searchInput.addEventListener('input', applyFilters);
+            prevPageBtn.addEventListener('click', goToPrevPage);
+            nextPageBtn.addEventListener('click', goToNextPage);
+            pageSizeSelect.addEventListener('change', function() {
+                pageSize = parseInt(this.value);
+                currentPage = 1;
+                renderTable();
+            });
+            successOkBtn.addEventListener('click', function() {
+                successPopup.style.display = 'none';
+            });
+
+            // Ordenamiento de columnas
+            document.querySelectorAll('th[data-sort]').forEach(th => {
+                th.addEventListener('click', function() {
+                    const field = this.getAttribute('data-sort');
+                    sortTable(field);
+                });
+            });
+        }
+
+        // Cargar datos de usuarios desde Firebase
+        function loadUsersData() {
+            loadingIndicator.style.display = 'block';
+            noDataMessage.style.display = 'none';
+            usersTableBody.innerHTML = '';
+
+            database.ref("Users").once('value')
+                .then(snapshot => {
+                    allUsers = [];
+                    snapshot.forEach(childSnapshot => {
+                        const user = childSnapshot.val();
+                        user.id = childSnapshot.key;
+                        allUsers.push(user);
+                    });
+                    
+                    updateStats();
+                    updateCountryFilter();
+                    applyFilters();
+                    loadingIndicator.style.display = 'none';
+                })
+                .catch(error => {
+                    console.error('Error loading users:', error);
+                    loadingIndicator.style.display = 'none';
+                    showError('Error al cargar los datos');
+                });
+        }
+
+        // Actualizar estadísticas
+        function updateStats() {
+            const total = allUsers.length;
+            const attending = allUsers.filter(user => user.attendance === 'Si').length;
+            const notAttending = allUsers.filter(user => user.attendance === 'No').length;
+            
+            // Contar registros de hoy
+            const today = new Date().toDateString();
+            const todayRegistrations = allUsers.filter(user => {
+                const regDate = new Date(user.registrationDate).toDateString();
+                return regDate === today;
+            }).length;
+
+            totalUsersElement.textContent = total;
+            attendingUsersElement.textContent = attending;
+            notAttendingUsersElement.textContent = notAttending;
+            todayRegistrationsElement.textContent = todayRegistrations;
+        }
+
+        // Actualizar filtro de países
+        function updateCountryFilter() {
+            const countries = [...new Set(allUsers.map(user => user.country).filter(Boolean))].sort();
+            countryFilter.innerHTML = '<option value="all">Todos los países</option>';
+            countries.forEach(country => {
+                const option = document.createElement('option');
+                option.value = country;
+                option.textContent = country;
+                countryFilter.appendChild(option);
+            });
+        }
+
+        // Aplicar filtros
+        function applyFilters() {
+            const attendanceValue = attendanceFilter.value;
+            const countryValue = countryFilter.value;
+            const searchValue = searchInput.value.toLowerCase();
+
+            filteredUsers = allUsers.filter(user => {
+                // Filtro por asistencia
+                if (attendanceValue !== 'all' && user.attendance !== attendanceValue) {
+                    return false;
+                }
+
+                // Filtro por país
+                if (countryValue !== 'all' && user.country !== countryValue) {
+                    return false;
+                }
+
+                // Filtro de búsqueda
+                if (searchValue) {
+                    const searchFields = [
+                        user.name,
+                        user.lastname,
+                        user.email,
+                        user.city,
+                        user.foodRestriction,
+                        user.country
+                    ].filter(Boolean).join(' ').toLowerCase();
+                    
+                    if (!searchFields.includes(searchValue)) {
+                        return false;
+                    }
+                }
+
+                return true;
+            });
+
+            currentPage = 1;
+            renderTable();
+        }
+
+        // Ordenar tabla
+        function sortTable(field) {
+            if (currentSort.field === field) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.field = field;
+                currentSort.direction = 'asc';
+            }
+
+            // Actualizar indicadores visuales
+            document.querySelectorAll('th[data-sort]').forEach(th => {
+                th.classList.remove('sort-asc', 'sort-desc');
+            });
+            
+            const currentTh = document.querySelector(`th[data-sort="${field}"]`);
+            currentTh.classList.add(`sort-${currentSort.direction}`);
+
+            // Aplicar ordenamiento
+            filteredUsers.sort((a, b) => {
+                let aValue = a[field] || '';
+                let bValue = b[field] || '';
+
+                // Convertir a string para comparar
+                aValue = String(aValue).toLowerCase();
+                bValue = String(bValue).toLowerCase();
+
+                if (currentSort.direction === 'asc') {
+                    return aValue.localeCompare(bValue);
+                } else {
+                    return bValue.localeCompare(aValue);
+                }
+            });
+
+            renderTable();
+        }
+
+        // Renderizar tabla
+        function renderTable() {
+            const startIndex = (currentPage - 1) * pageSize;
+            const endIndex = startIndex + pageSize;
+            const pageUsers = filteredUsers.slice(startIndex, endIndex);
+
+            usersTableBody.innerHTML = '';
+
+            if (pageUsers.length === 0) {
+                noDataMessage.style.display = 'block';
+            } else {
+                noDataMessage.style.display = 'none';
+                pageUsers.forEach(user => {
+                    const row = document.createElement('tr');
+                    
+                    // Formatear fechas
+                    const regDate = user.registrationDate ? 
+                        new Date(user.registrationDate).toLocaleDateString('es-ES') : 'N/A';
+                    
+                    const updateDate = user.lastUpdate ? 
+                        new Date(user.lastUpdate).toLocaleDateString('es-ES') : 'N/A';
+
+                    row.innerHTML = `
+                        <td>${escapeHtml(user.name || '')} ${escapeHtml(user.lastname || '')}</td>
+                        <td class="email-cell">${escapeHtml(user.email || '')}</td>
+                        <td class="${user.attendance === 'Si' ? 'attendance-yes' : 'attendance-no'}">
+                            ${escapeHtml(user.attendance || '')}
+                        </td>
+                        <td>${escapeHtml(user.foodRestriction || '')}</td>
+                        <td>${escapeHtml(user.country || '')}</td>
+                        <td>${escapeHtml(user.city || '')}</td>
+                        <td>${regDate}</td>
+                        <td>${updateDate}</td>
+                    `;
+                    usersTableBody.appendChild(row);
+                });
+            }
+
+            updatePagination();
+        }
+
+        // Actualizar controles de paginación
+        function updatePagination() {
+            const totalPages = Math.ceil(filteredUsers.length / pageSize);
+            
+            // Actualizar información
+            const start = Math.min((currentPage - 1) * pageSize + 1, filteredUsers.length);
+            const end = Math.min(currentPage * pageSize, filteredUsers.length);
+            paginationInfo.textContent = `Mostrando ${start}-${end} de ${filteredUsers.length} registros`;
+            pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
+
+            // Actualizar botones
+            prevPageBtn.disabled = currentPage === 1;
+            nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
+        }
+
+        // Navegación de páginas
+        function goToPrevPage() {
+            if (currentPage > 1) {
+                currentPage--;
+                renderTable();
+            }
+        }
+
+        function goToNextPage() {
+            const totalPages = Math.ceil(filteredUsers.length / pageSize);
+            if (currentPage < totalPages) {
+                currentPage++;
+                renderTable();
+            }
+        }
+
+        // Exportar a Excel
+        function exportToExcel() {
+            try {
+                // Preparar datos para Excel
+                const excelData = filteredUsers.map(user => ({
+                    'Nombre': user.name || '',
+                    'Apellido': user.lastname || '',
+                    'Email': user.email || '',
+                    'Asistencia': user.attendance || '',
+                    'Restricción Alimentaria': user.foodRestriction || '',
+                    'Dirección': user.address || '',
+                    'País': user.country || '',
+                    'Ciudad': user.city || '',
+                    'Fecha Registro': user.registrationDate ? 
+                        new Date(user.registrationDate).toLocaleDateString('es-ES') : '',
+                    'Última Actualización': user.lastUpdate ? 
+                        new Date(user.lastUpdate).toLocaleDateString('es-ES') : ''
+                }));
+
+                // Crear libro de trabajo
+                const wb = XLSX.utils.book_new();
+                const ws = XLSX.utils.json_to_sheet(excelData);
+
+                // Ajustar anchos de columnas
+                const colWidths = [
+                    { wch: 15 }, // Nombre
+                    { wch: 15 }, // Apellido
+                    { wch: 25 }, // Email
+                    { wch: 12 }, // Asistencia
+                    { wch: 20 }, // Restricción
+                    { wch: 30 }, // Dirección
+                    { wch: 15 }, // País
+                    { wch: 15 }, // Ciudad
+                    { wch: 15 }, // Fecha Registro
+                    { wch: 15 }  // Última Actualización
+                ];
+                ws['!cols'] = colWidths;
+
+                // Agregar hoja al libro
+                XLSX.utils.book_append_sheet(wb, ws, 'Registros Trane');
+
+                // Generar archivo y descargar
+                const fileName = `Registros_Informe_${new Date().toISOString().split('T')[0]}.xlsx`;
+                XLSX.writeFile(wb, fileName);
+
+                // Mostrar mensaje de éxito
+                document.getElementById('successMessage').textContent = 
+                    `Se han exportado ${filteredUsers.length} registros correctamente.`;
+                successPopup.style.display = 'flex';
+
+            } catch (error) {
+                console.error('Error exporting to Excel:', error);
+                showError('Error al exportar a Excel');
+            }
+        }
+
+        // Utilidades
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        function showError(message) {
+            alert('Error: ' + message);
+        }
+
+        // Cerrar popup al hacer clic fuera
+        document.addEventListener('click', function(e) {
+            if (e.target === successPopup) {
+                successPopup.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>PACTO 2026</title>
+    <link rel="icon" href="trane-favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Radley:ital@0;1&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-color: #e9eae5;
+            --secondary-color: #e63946;
+            --accent-color: #2a9d8f;
+            --warning-color: #ff9f1c;
+            --light-color: #f8f9fa;
+            --dark-color: #212529;
+            --gray-color: #6c757d;
+            --border-radius: 8px;
+            --box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            height: 100%;
+            -webkit-text-size-adjust: 100%;
+        }
+
+        body {
+            font-family: "Roboto", sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background: linear-gradient(135deg, #e9eae5 0%, #d1dfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background-color: white;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            overflow: hidden;
+            margin: auto;
+        }
+
+        .header {
+            background: linear-gradient(#000000a9, #00000081),
+                url('bgheader.png') center/cover no-repeat;
+            padding: 25px 20px;
+            color: white;
+            position: relative;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+          
+        }
+
+
+        .header h1 {
+            font-family: "Roboto", sans-serif;
+            font-size: clamp(32px, 8vw, 48px);
+            letter-spacing: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            margin: 0;
+            color: white;
+            text-align: left;
+            flex: 1;
+        }
+
+        .logo {
+            height: 35px;
+            width: auto;
+            max-width: 200px;
+            filter: brightness(0) invert(1);
+            margin-left: 20px;
+            margin-bottom: 10px;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+
+       
+
+        .event-location {
+            font-family: "Roboto", sans-serif;
+            font-size: clamp(16px, 3vw, 22px);
+            font-weight: 500;
+            color: white;
+
+        }
+
+        .registration-title {
+            font-family: "Roboto", sans-serif;
+            font-size: clamp(24px, 4vw, 28px);
+            font-weight: 600;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+
+           
+            color: white;
+            letter-spacing: 1px;
+        }
+
+        .header h1 {
+            font-family: "Roboto", sans-serif;
+            font-size: clamp(26px, 5vw, 32px);
+            margin-bottom: 5px;
+            letter-spacing: 0.5px;
+            line-height: 1.2;
+        }
+
+        .header p {
+            font-size: clamp(12px, 3vw, 14px);
+            opacity: 0.9;
+        }
+
+        .form-container {
+            padding: 20px 15px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 12px;
+            flex-direction: column;
+        }
+
+        @media (min-width: 480px) {
+            .form-row {
+                flex-direction: row;
+            }
+
+            .form-row .form-group {
+                flex: 1;
+            }
+        }
+
+        label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 14px;
+        }
+
+        .required::after {
+            content: " *";
+            color: var(--secondary-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 14px 12px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+            background-color: var(--light-color);
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            -webkit-appearance: none;
+            border-radius: var(--border-radius);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 71, 187, 0.2);
+        }
+
+        select.form-control {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 14px;
+            padding-right: 35px;
+        }
+
+        textarea.form-control {
+            min-height: 90px;
+            resize: vertical;
+        }
+
+        .form-note {
+            font-size: 11px;
+            color: var(--gray-color);
+            margin-top: 4px;
+            line-height: 1.4;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: center;
+            -webkit-tap-highlight-color: transparent;
+            touch-action: manipulation;
+        }
+
+        .btn:hover {
+            background-color: #003da0;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .btn-warning {
+            background-color: var(--warning-color);
+        }
+
+        .btn-warning:hover {
+            background-color: #e68a00;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 15px;
+            background-color: var(--light-color);
+            border-top: 1px solid #eee;
+            font-size: 11px;
+            color: var(--gray-color);
+        }
+
+        .footer-logo {
+            height: 25px;
+            margin-bottom: 8px;
+            max-width: 120px;
+        }
+
+        .error {
+            color: var(--secondary-color);
+            font-size: 12px;
+            margin-top: 4px;
+            display: none;
+            line-height: 1.3;
+        }
+
+        .form-control.error-field {
+            border-color: var(--secondary-color);
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 12px 0;
+        }
+
+        .spinner {
+            border: 3px solid rgba(0, 0, 0, 0.1);
+            border-left-color: var(--primary-color);
+            border-radius: 50%;
+            width: 25px;
+            height: 25px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 8px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Popups */
+        .popup-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .popup {
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            animation: popupIn 0.3s ease-out;
+        }
+
+        @keyframes popupIn {
+            from {
+                opacity: 0;
+                transform: scale(0.9) translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: scale(1) translateY(0);
+            }
+        }
+
+        .popup-icon {
+            font-size: 48px;
+            margin-bottom: 15px;
+        }
+
+        .popup-success .popup-icon {
+            color: var(--accent-color);
+        }
+
+        .popup-warning .popup-icon {
+            color: var(--warning-color);
+        }
+
+        .popup-info .popup-icon {
+            color: var(--primary-color);
+        }
+
+        .popup h3 {
+            margin-bottom: 15px;
+            color: var(--dark-color);
+            font-size: 20px;
+        }
+
+        .popup p {
+            margin-bottom: 20px;
+            color: var(--gray-color);
+            line-height: 1.5;
+        }
+
+        .popup-btn {
+            padding: 12px 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            min-width: 120px;
+        }
+
+        .popup-btn:hover {
+            background-color: #a0001b;
+        }
+
+        .popup-success .popup-btn {
+            background-color: var(--accent-color);
+        }
+
+        .popup-success .popup-btn:hover {
+            background-color: #238f7a;
+        }
+
+        /* Modal de confirmación para actualización */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1001;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal {
+            background: white;
+            padding: 25px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            animation: popupIn 0.3s ease-out;
+        }
+
+        .modal h3 {
+            margin-bottom: 15px;
+            color: var(--dark-color);
+        }
+
+        .modal p {
+            margin-bottom: 20px;
+            color: var(--gray-color);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+            flex: 1;
+        }
+
+        .modal-btn.confirm {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .modal-btn.cancel {
+            background-color: var(--gray-color);
+            color: white;
+        }
+
+        /* Mejoras específicas para móviles */
+        @media (max-width: 479px) {
+            body {
+                padding: 10px;
+                justify-content: flex-start;
+            }
+
+            .container {
+                margin: 10px auto;
+            }
+
+            .header {
+                padding: 15px 12px;
+            }
+
+            .logo-container {
+                gap: 10px;
+                margin-bottom: 10px;
+            }
+
+            .logo {
+                height: 35px;
+            }
+
+            .form-container {
+                padding: 15px 12px;
+            }
+
+            .form-control {
+                padding: 12px 10px;
+                font-size: 15px;
+            }
+
+            .btn {
+                padding: 14px;
+                font-size: 15px;
+            }
+
+            .popup,
+            .modal {
+                padding: 20px;
+            }
+
+            .modal-buttons {
+                flex-direction: column;
+            }
+
+            .popup-overlay,
+            .modal-overlay {
+                padding: 15px;
+            }
+        }
+
+        @media (max-width: 320px) {
+            .header h1 {
+                font-size: 20px;
+            }
+
+            .logo {
+                height: 30px;
+            }
+
+            .form-control {
+                padding: 10px 8px;
+                font-size: 14px;
+            }
+
+            .popup,
+            .modal {
+                padding: 15px;
+            }
+
+            .popup h3 {
+                font-size: 18px;
+            }
+
+            .popup-icon {
+                font-size: 36px;
+            }
+        }
+
+        @media screen and (max-width: 768px) {
+
+            input,
+            select,
+            textarea {
+                font-size: 16px !important;
+            }
+        }
+
+        @media (max-width: 768px) {
+            body {
+                line-height: 1.5;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="header-top">
+                <h1>PACTO <a style="color: #e63946;">2026</a></h1>
+                <img src="trane-logo.png" alt="Trane" class="logo">
+            </div>
+            <hr style="border: none; height: 1px; background: #ccc;">
+            <p class="event-location">Hotel Potrero de los funes - San Luis - 13 y 14 Noviembre.</p>
+            <h2 class="registration-title">Registro de invitados</h2>
+        </div>
+
+        <div class="form-container">
+            <form id="registrationForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="name" class="required">Nombre</label>
+                        <input type="text" id="name" class="form-control" placeholder="Ingrese su nombre" required>
+                        <div class="error" id="nameError">Por favor ingrese su nombre</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastname" class="required">Apellido</label>
+                        <input type="text" id="lastname" class="form-control" placeholder="Ingrese su apellido"
+                            required>
+                        <div class="error" id="lastnameError">Por favor ingrese su apellido</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="required">Email</label>
+                    <input type="email" id="email" class="form-control" placeholder="ejemplo@correo.com" required>
+                    <div class="error" id="emailError">Por favor ingrese un email válido</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="attendance" class="required">Asistencia</label>
+                        <select id="attendance" class="form-control" required>
+                            <option value="" disabled selected>Seleccione una opción</option>
+                            <option value="Si">Sí asistiré</option>
+                            <option value="No">No podré asistir</option>
+                        </select>
+                        <div class="error" id="attendanceError">Por favor seleccione una opción</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="foodRestriction" class="required">Restricción alimentaria</label>
+                        <input type="text" id="foodRestriction" class="form-control" list="foodOptions"
+                            placeholder="Seleccione o escriba su restricción" required>
+                        <datalist id="foodOptions">
+                            <option value="Ninguna">
+                            <option value="Vegetariano">
+                            <option value="Vegano">
+                            <option value="Sin gluten">
+                            <option value="Sin lactosa">
+                            <option value="Sin mariscos">
+                            <option value="Sin cerdo">
+                            <option value="Baja en sodio">
+                            <option value="Diabético">
+                            <option value="Otra">
+                        </datalist>
+                        <div class="error" id="foodRestrictionError">Por favor ingrese su restricción alimentaria</div>
+                    </div>
+                </div>
+
+               
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="country" class="required">País</label>
+                      <select id="country" class="form-control" required>
+  <option value="" disabled selected>Seleccione su país</option>
+
+  <!-- América del Norte -->
+  <option value="Canada">Canadá</option>
+  <option value="Estados Unidos">Estados Unidos</option>
+  <option value="Mexico">México</option>
+
+  <!-- América Central -->
+  <option value="Belice">Belice</option>
+  <option value="Costa Rica">Costa Rica</option>
+  <option value="El Salvador">El Salvador</option>
+  <option value="Guatemala">Guatemala</option>
+  <option value="Honduras">Honduras</option>
+  <option value="Nicaragua">Nicaragua</option>
+  <option value="Panama">Panamá</option>
+
+  <!-- Caribe -->
+  <option value="Antigua y Barbuda">Antigua y Barbuda</option>
+  <option value="Bahamas">Bahamas</option>
+  <option value="Barbados">Barbados</option>
+  <option value="Cuba">Cuba</option>
+  <option value="Dominica">Dominica</option>
+  <option value="Granada">Granada</option>
+  <option value="Haiti">Haití</option>
+  <option value="Jamaica">Jamaica</option>
+  <option value="Republica Dominicana">República Dominicana</option>
+  <option value="San Cristobal y Nieves">San Cristóbal y Nieves</option>
+  <option value="Santa Lucia">Santa Lucía</option>
+  <option value="San Vicente y las Granadinas">San Vicente y las Granadinas</option>
+  <option value="Trinidad y Tobago">Trinidad y Tobago</option>
+
+  <!-- América del Sur -->
+  <option value="Argentina">Argentina</option>
+  <option value="Bolivia">Bolivia</option>
+  <option value="Brasil">Brasil</option>
+  <option value="Chile">Chile</option>
+  <option value="Colombia">Colombia</option>
+  <option value="Ecuador">Ecuador</option>
+  <option value="Guyana">Guyana</option>
+  <option value="Paraguay">Paraguay</option>
+  <option value="Peru">Perú</option>
+  <option value="Surinam">Surinam</option>
+  <option value="Uruguay">Uruguay</option>
+  <option value="Venezuela">Venezuela</option>
+
+  <!-- Extra -->
+  <option value="Otro">Otro</option>
+</select>
+
+                        <div class="error" id="countryError">Por favor seleccione su país</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="city" class="required">Ciudad</label>
+                        <input type="text" id="city" class="form-control" placeholder="Ingrese su ciudad" required>
+                        <div class="error" id="cityError">Por favor ingrese su ciudad</div>
+                    </div>
+                </div>
+ <div class="form-group">
+                    <label for="address" class="required">Dirección</label>
+                    <textarea id="address" class="form-control" placeholder="Escriba su dirección o área de residencia" required></textarea>
+
+                    <div class="error" id="addressError">Por favor ingrese su dirección</div>
+                </div>
+                <div class="loading" id="loadingIndicator">
+                    <div class="spinner"></div>
+                    <p>Verificando registro...</p>
+                </div>
+
+                <button type="submit" class="btn" id="submitButton"><a style="color: #00326c;">Enviar
+                        Registro</a></button>
+                <button type="button" class="btn btn-warning" id="updateButton"
+                    style="display: none; margin-top: 10px;">Actualizar Datos</button>
+            </form>
+        </div>
+
+        <div class="footer">
+            <imgs src="trane-logo.png" alt="Trane Technologies" class="footer-logo">
+                <img src="logo-TT.svg" alt="Trane Technologies" class="footer-logo">
+                <p>© 2025 Trane. Todos los derechos reservados.</p>
+        </div>
+    </div>
+
+    <!-- Popup de éxito -->
+    <div class="popup-overlay" id="successPopup">
+        <div class="popup popup-success">
+            <div class="popup-icon">✓</div>
+            <h3>¡Registro Exitoso!</h3>
+            <p id="successMessage">Su información ha sido guardada correctamente.</p>
+            <button class="popup-btn" id="successOkBtn">Aceptar</button>
+        </div>
+    </div>
+
+    <!-- Popup de advertencia (email ya registrado) -->
+    <div class="popup-overlay" id="warningPopup">
+        <div class="popup popup-warning">
+            <div class="popup-icon">⚠</div>
+            <h3>Email Ya Registrado</h3>
+            <p>Este email ya está registrado en nuestro sistema. Si desea actualizar su información, modifique los
+                campos y envíe nuevamente.</p>
+            <button class="popup-btn" id="warningOkBtn">Entendido</button>
+        </div>
+    </div>
+
+    <!-- Popup de información (actualización disponible) -->
+    <div class="popup-overlay" id="infoPopup">
+        <div class="popup popup-info">
+            <div class="popup-icon">ℹ</div>
+            <h3>Actualización Disponible</h3>
+            <p>Se han detectado cambios en su información de registro. ¿Desea actualizar sus datos?</p>
+            <div style="display: flex; gap: 10px; justify-content: center; margin-top: 20px;">
+                <button class="popup-btn" id="infoUpdateBtn">Actualizar</button>
+                <button class="popup-btn" style="background-color: var(--gray-color);"
+                    id="infoCancelBtn">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal de confirmación para actualización -->
+    <div class="modal-overlay" id="updateModal">
+        <div class="modal">
+            <h3>¿Actualizar información?</h3>
+            <p>Se han detectado cambios en su información de registro. ¿Desea actualizar sus datos?</p>
+            <div class="modal-buttons">
+                <button class="modal-btn confirm" id="confirmUpdate">Sí, actualizar</button>
+                <button class="modal-btn cancel" id="cancelUpdate">Cancelar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+    <script>
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyD7e2gH7-45wi3FaVfrzzgVBc0oyIW4F58",
+            authDomain: "trfrom-b1295.firebaseapp.com",
+            databaseURL: "https://trfrom-b1295-default-rtdb.firebaseio.com",
+            projectId: "trfrom-b1295",
+            storageBucket: "trfrom-b1295.appspot.com",
+            messagingSenderId: "805241083235",
+            appId: "1:805241083235:web:580af805c75fb5c35a6f56",
+            measurementId: "G-WX6FTFHF13"
+        };
+
+        // Inicializar Firebase
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+        // Elementos del DOM
+        const form = document.getElementById('registrationForm');
+        const submitButton = document.getElementById('submitButton');
+        const updateButton = document.getElementById('updateButton');
+        const loadingIndicator = document.getElementById('loadingIndicator');
+
+        // Popups
+        const successPopup = document.getElementById('successPopup');
+        const warningPopup = document.getElementById('warningPopup');
+        const infoPopup = document.getElementById('infoPopup');
+        const successOkBtn = document.getElementById('successOkBtn');
+        const warningOkBtn = document.getElementById('warningOkBtn');
+        const infoUpdateBtn = document.getElementById('infoUpdateBtn');
+        const infoCancelBtn = document.getElementById('infoCancelBtn');
+
+        // Modal
+        const updateModal = document.getElementById('updateModal');
+        const confirmUpdate = document.getElementById('confirmUpdate');
+        const cancelUpdate = document.getElementById('cancelUpdate');
+
+        // Variables globales
+        let existingUserData = null;
+        let hasChanges = false;
+
+        // Función para mostrar errores
+        function showError(fieldId, errorId) {
+            document.getElementById(fieldId).classList.add('error-field');
+            document.getElementById(errorId).style.display = 'block';
+        }
+
+        // Función para ocultar errores
+        function hideError(fieldId, errorId) {
+            document.getElementById(fieldId).classList.remove('error-field');
+            document.getElementById(errorId).style.display = 'none';
+        }
+
+        // Función para validar email
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        // Función para obtener datos del usuario existente
+        function getUserData(email) {
+            const sanitizedEmail = email.replace(/\./g, '');
+            return database.ref("Users/" + sanitizedEmail).once('value')
+                .then(snapshot => {
+                    if (snapshot.exists()) {
+                        return snapshot.val();
+                    }
+                    return null;
+                });
+        }
+
+        // Función para verificar si hay cambios
+        function checkForChanges(currentData, existingData) {
+            if (!existingData) return false;
+
+            return (
+                currentData.name !== existingData.name ||
+                currentData.lastname !== existingData.lastname ||
+                currentData.attendance !== existingData.attendance ||
+                currentData.foodRestriction !== existingData.foodRestriction ||
+                currentData.address !== existingData.address ||
+                currentData.country !== existingData.country ||
+                currentData.city !== existingData.city
+            );
+        }
+
+        // Función para cargar datos existentes en el formulario
+        function loadExistingData(data) {
+            document.getElementById('name').value = data.name || '';
+            document.getElementById('lastname').value = data.lastname || '';
+            document.getElementById('attendance').value = data.attendance || '';
+            document.getElementById('foodRestriction').value = data.foodRestriction || '';
+            document.getElementById('address').value = data.address || '';
+            document.getElementById('country').value = data.country || '';
+            document.getElementById('city').value = data.city || '';
+        }
+
+        // Función para enviar el formulario (nuevo registro)
+        async function submitForm(formData) {
+            const {
+                name,
+                lastname,
+                email,
+                attendance,
+                foodRestriction,
+                address,
+                country,
+                city
+            } = formData;
+
+            const sanitizedEmail = email.replace(/\./g, '');
+
+            // Guardar datos en Firebase
+            await database.ref("Users/" + sanitizedEmail).set({
+                name: name,
+                lastname: lastname,
+                email: email,
+                attendance: attendance,
+                foodRestriction: foodRestriction,
+                address: address,
+                country: country,
+                city: city,
+                registrationDate: new Date().toISOString(),
+                lastUpdate: new Date().toISOString()
+            });
+
+            return true;
+        }
+
+        // Función para actualizar el formulario
+        async function updateForm(formData) {
+            const {
+                name,
+                lastname,
+                email,
+                attendance,
+                foodRestriction,
+                address,
+                country,
+                city
+            } = formData;
+
+            const sanitizedEmail = email.replace(/\./g, '');
+
+            // Actualizar datos en Firebase
+            await database.ref("Users/" + sanitizedEmail).update({
+                name: name,
+                lastname: lastname,
+                attendance: attendance,
+                foodRestriction: foodRestriction,
+                address: address,
+                country: country,
+                city: city,
+                lastUpdate: new Date().toISOString()
+            });
+
+            return true;
+        }
+
+        // Función para mostrar popup de éxito
+        function showSuccessPopup(message) {
+            document.getElementById('successMessage').textContent = message;
+            successPopup.style.display = 'flex';
+        }
+
+        // Función para mostrar popup de advertencia
+        function showWarningPopup() {
+            warningPopup.style.display = 'flex';
+        }
+
+        // Función para mostrar popup de información
+        function showInfoPopup() {
+            infoPopup.style.display = 'flex';
+        }
+
+        // Cerrar todos los popups
+        function closeAllPopups() {
+            successPopup.style.display = 'none';
+            warningPopup.style.display = 'none';
+            infoPopup.style.display = 'none';
+            updateModal.style.display = 'none';
+        }
+
+        // Event listeners para los botones de los popups
+        successOkBtn.addEventListener('click', closeAllPopups);
+        warningOkBtn.addEventListener('click', closeAllPopups);
+
+        infoUpdateBtn.addEventListener('click', function () {
+            closeAllPopups();
+            updateModal.style.display = 'flex';
+        });
+
+        infoCancelBtn.addEventListener('click', closeAllPopups);
+
+        // Manejar el envío del formulario
+        form.addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            // Ocultar todos los popups
+            closeAllPopups();
+
+            // Obtener valores del formulario
+            const name = document.getElementById('name').value.trim();
+            const lastname = document.getElementById('lastname').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const attendance = document.getElementById('attendance').value;
+            const foodRestriction = document.getElementById('foodRestriction').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const country = document.getElementById('country').value;
+            const city = document.getElementById('city').value.trim();
+
+            // Validar campos
+            let isValid = true;
+
+            if (!name) {
+                showError('name', 'nameError');
+                isValid = false;
+            } else {
+                hideError('name', 'nameError');
+            }
+
+            if (!lastname) {
+                showError('lastname', 'lastnameError');
+                isValid = false;
+            } else {
+                hideError('lastname', 'lastnameError');
+            }
+
+            if (!email || !isValidEmail(email)) {
+                showError('email', 'emailError');
+                isValid = false;
+            } else {
+                hideError('email', 'emailError');
+            }
+
+            if (!attendance) {
+                showError('attendance', 'attendanceError');
+                isValid = false;
+            } else {
+                hideError('attendance', 'attendanceError');
+            }
+
+            if (!foodRestriction) {
+                showError('foodRestriction', 'foodRestrictionError');
+                isValid = false;
+            } else {
+                hideError('foodRestriction', 'foodRestrictionError');
+            }
+
+            if (!address) {
+                showError('address', 'addressError');
+                isValid = false;
+            } else {
+                hideError('address', 'addressError');
+            }
+
+            if (!country) {
+                showError('country', 'countryError');
+                isValid = false;
+            } else {
+                hideError('country', 'countryError');
+            }
+
+            if (!city) {
+                showError('city', 'cityError');
+                isValid = false;
+            } else {
+                hideError('city', 'cityError');
+            }
+
+            if (!isValid) {
+                return;
+            }
+
+            // Mostrar indicador de carga
+            submitButton.disabled = true;
+            loadingIndicator.style.display = 'block';
+
+            try {
+                // Verificar si el email ya está registrado
+                existingUserData = await getUserData(email);
+                const currentFormData = {
+                    name,
+                    lastname,
+                    email,
+                    attendance,
+                    foodRestriction,
+                    address,
+                    country,
+                    city
+                };
+
+                if (existingUserData) {
+                    // Usuario existe, verificar si hay cambios
+                    hasChanges = checkForChanges(currentFormData, existingUserData);
+
+                    if (hasChanges) {
+                        // Mostrar popup de información para actualización
+                        showInfoPopup();
+                        updateButton.style.display = 'block';
+                        submitButton.style.display = 'none';
+                    } else {
+                        // No hay cambios, mostrar popup de advertencia
+                        showWarningPopup();
+                        loadExistingData(existingUserData);
+                    }
+                } else {
+                    // Usuario no existe, crear nuevo registro
+                    await submitForm(currentFormData);
+                    showSuccessPopup('¡Registro completado satisfactoriamente! Su información ha sido guardada correctamente.');
+                    form.reset();
+                    updateButton.style.display = 'none';
+                    submitButton.style.display = 'block';
+                }
+
+            } catch (error) {
+                console.error('Error al procesar el formulario:', error);
+                showSuccessPopup('Ocurrió un error al procesar el formulario. Por favor, inténtelo de nuevo.');
+            } finally {
+                loadingIndicator.style.display = 'none';
+                submitButton.disabled = false;
+            }
+        });
+
+        // Manejar la actualización de datos
+        updateButton.addEventListener('click', function () {
+            updateModal.style.display = 'flex';
+        });
+
+        // Confirmar actualización
+        confirmUpdate.addEventListener('click', async function () {
+            updateModal.style.display = 'none';
+            updateButton.disabled = true;
+            loadingIndicator.style.display = 'block';
+
+            try {
+                const name = document.getElementById('name').value.trim();
+                const lastname = document.getElementById('lastname').value.trim();
+                const email = document.getElementById('email').value.trim();
+                const attendance = document.getElementById('attendance').value;
+                const foodRestriction = document.getElementById('foodRestriction').value.trim();
+                const address = document.getElementById('address').value.trim();
+                const country = document.getElementById('country').value;
+                const city = document.getElementById('city').value.trim();
+
+                const formData = {
+                    name,
+                    lastname,
+                    email,
+                    attendance,
+                    foodRestriction,
+                    address,
+                    country,
+                    city
+                };
+
+                await updateForm(formData);
+
+                showSuccessPopup('¡Actualización completada satisfactoriamente! Su información ha sido actualizada correctamente.');
+
+                updateButton.style.display = 'none';
+                submitButton.style.display = 'block';
+
+            } catch (error) {
+                console.error('Error al actualizar:', error);
+                showSuccessPopup('Ocurrió un error al actualizar la información. Por favor, inténtelo de nuevo.');
+            } finally {
+                loadingIndicator.style.display = 'none';
+                updateButton.disabled = false;
+            }
+        });
+
+        // Cancelar actualización
+        cancelUpdate.addEventListener('click', function () {
+            updateModal.style.display = 'none';
+        });
+
+        // Validación en tiempo real para el email
+        document.getElementById('email').addEventListener('blur', async function () {
+            const email = this.value.trim();
+
+            if (email && isValidEmail(email)) {
+                existingUserData = await getUserData(email);
+
+                if (existingUserData) {
+                    loadExistingData(existingUserData);
+                    updateButton.style.display = 'none';
+                    submitButton.style.display = 'block';
+                } else {
+                    updateButton.style.display = 'none';
+                    submitButton.style.display = 'block';
+                }
+            }
+        });
+
+        // Prevenir zoom en iOS al enfocar inputs
+        document.addEventListener('touchstart', function () { }, { passive: true });
+
+        // Cerrar popups al hacer clic fuera de ellos
+        document.addEventListener('click', function (e) {
+            if (e.target.classList.contains('popup-overlay') || e.target.classList.contains('modal-overlay')) {
+                closeAllPopups();
+            }
+        });
+    </script>
+</body>
+
+</html>
