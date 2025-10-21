@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <!-- SheetJS para exportar a Excel -->
+   
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
     <style>
@@ -133,6 +133,15 @@
             background-color: #238f7a;
         }
 
+        .btn-success {
+            background-color: #28a745;
+            color: white;
+        }
+
+        .btn-success:hover {
+            background-color: #218838;
+        }
+
         .btn-danger {
             background-color: var(--secondary-color);
             color: white;
@@ -140,6 +149,11 @@
 
         .btn-danger:hover {
             background-color: #d1343e;
+        }
+
+        .btn-sm {
+            padding: 8px 16px;
+            font-size: 12px;
         }
 
         .stats-container {
@@ -179,6 +193,11 @@
             padding: 20px 30px;
             background: white;
             border-bottom: 1px solid #dee2e6;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
         }
 
         .filters {
@@ -285,6 +304,17 @@
             font-weight: 600;
         }
 
+        .actions-cell {
+            white-space: nowrap;
+            text-align: center;
+        }
+
+        .actions-buttons {
+            display: flex;
+            gap: 5px;
+            justify-content: center;
+        }
+
         .loading {
             text-align: center;
             padding: 40px;
@@ -359,7 +389,7 @@
             background: white;
         }
 
-        /* Popups */
+        /* Popups y Modales */
         .popup-overlay {
             display: none;
             position: fixed;
@@ -434,6 +464,124 @@
             background-color: #003da0;
         }
 
+        /* Modal de formulario */
+        .modal {
+            background: white;
+            padding: 30px;
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow);
+            max-width: 600px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: popupIn 0.3s ease-out;
+        }
+
+        .modal h3 {
+            margin-bottom: 20px;
+            color: var(--dark-color);
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 15px;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark-color);
+            font-size: 14px;
+        }
+
+        .required::after {
+            content: " *";
+            color: var(--secondary-color);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            transition: var(--transition);
+            background-color: var(--light-color);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(0, 71, 187, 0.2);
+        }
+
+        select.form-control {
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            background-size: 16px;
+            padding-right: 45px;
+        }
+
+        textarea.form-control {
+            min-height: 80px;
+            resize: vertical;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 25px;
+        }
+
+        .modal-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: var(--border-radius);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            min-width: 100px;
+        }
+
+        .modal-btn.confirm {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .modal-btn.confirm:hover {
+            background-color: #003da0;
+        }
+
+        .modal-btn.cancel {
+            background-color: var(--gray-color);
+            color: white;
+        }
+
+        .modal-btn.cancel:hover {
+            background-color: #5a6268;
+        }
+
+        .error {
+            color: var(--secondary-color);
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
         /* Responsive */
         @media (max-width: 768px) {
             .header {
@@ -449,6 +597,11 @@
 
             .stats-grid {
                 grid-template-columns: 1fr;
+            }
+
+            .filters-container {
+                flex-direction: column;
+                align-items: stretch;
             }
 
             .filters {
@@ -477,6 +630,15 @@
 
             .pagination-controls {
                 justify-content: center;
+            }
+
+            .form-row {
+                flex-direction: column;
+                gap: 0;
+            }
+
+            .actions-buttons {
+                flex-direction: column;
             }
         }
 
@@ -510,10 +672,13 @@
                 <img src="trane-logo.png" alt="Trane" class="logo">
                 <div class="header-text">
                     <h1>Administración de Registros</h1>
-                    <p>Trane Evento </p>
+                    <p>Trane Evento</p>
                 </div>
             </div>
             <div class="controls">
+                <button class="btn btn-success" id="addUserBtn">
+                    ➕ Agregar Usuario
+                </button>
                 <button class="btn btn-primary" id="exportExcelBtn">
                     📊 Exportar a Excel
                 </button>
@@ -581,11 +746,11 @@
                         <th data-sort="country">País</th>
                         <th data-sort="city">Ciudad</th>
                         <th data-sort="registrationDate">Fecha Registro</th>
-                        <th data-sort="lastUpdate">Última Actualización</th>
+                        <th>Acciones</th>
                     </tr>
                 </thead>
                 <tbody id="usersTableBody">
-                    <!-- Los datos se cargarán aquí dinámicamente -->
+            
                 </tbody>
             </table>
         </div>
@@ -619,7 +784,7 @@
         </div>
     </div>
 
-    <!-- Popup de éxito -->
+
     <div class="popup-overlay" id="successPopup">
         <div class="popup popup-success">
             <div class="popup-icon">✓</div>
@@ -629,10 +794,102 @@
         </div>
     </div>
 
+    
+    <div class="popup-overlay" id="userModal">
+        <div class="modal">
+            <h3 id="modalTitle">Agregar Nuevo Usuario</h3>
+            <form id="userForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modalName" class="required">Nombre</label>
+                        <input type="text" id="modalName" class="form-control" placeholder="Ingrese el nombre" required>
+                        <div class="error" id="modalNameError">Por favor ingrese el nombre</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="modalLastname" class="required">Apellido</label>
+                        <input type="text" id="modalLastname" class="form-control" placeholder="Ingrese el apellido" required>
+                        <div class="error" id="modalLastnameError">Por favor ingrese el apellido</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="modalEmail" class="required">Email</label>
+                    <input type="email" id="modalEmail" class="form-control" placeholder="ejemplo@correo.com" required>
+                    <div class="error" id="modalEmailError">Por favor ingrese un email válido</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modalAttendance" class="required">Asistencia</label>
+                        <select id="modalAttendance" class="form-control" required>
+                            <option value="" disabled selected>Seleccione una opción</option>
+                            <option value="Si">Sí asistirá</option>
+                            <option value="No">No asistirá</option>
+                        </select>
+                        <div class="error" id="modalAttendanceError">Por favor seleccione una opción</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="modalFoodRestriction" class="required">Restricción alimentaria</label>
+                        <input type="text" id="modalFoodRestriction" class="form-control" placeholder="Ej: Vegetariano, sin gluten" required>
+                        <div class="error" id="modalFoodRestrictionError">Por favor ingrese la restricción alimentaria</div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="modalAddress" class="required">Dirección</label>
+                    <textarea id="modalAddress" class="form-control" placeholder="Dirección completa" required></textarea>
+                    <div class="error" id="modalAddressError">Por favor ingrese la dirección</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="modalCountry" class="required">País</label>
+                        <select id="modalCountry" class="form-control" required>
+                            <option value="" disabled selected>Seleccione el país</option>
+                            <option value="Colombia">Colombia</option>
+                            <option value="Mexico">México</option>
+                            <option value="Argentina">Argentina</option>
+                            <option value="Chile">Chile</option>
+                            <option value="Peru">Perú</option>
+                            <option value="Brasil">Brasil</option>
+                            <option value="Ecuador">Ecuador</option>
+                            <option value="Venezuela">Venezuela</option>
+                            <option value="Otro">Otro</option>
+                        </select>
+                        <div class="error" id="modalCountryError">Por favor seleccione el país</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="modalCity" class="required">Ciudad</label>
+                        <input type="text" id="modalCity" class="form-control" placeholder="Ingrese la ciudad" required>
+                        <div class="error" id="modalCityError">Por favor ingrese la ciudad</div>
+                    </div>
+                </div>
+
+                <div class="modal-buttons">
+                    <button type="button" class="modal-btn cancel" id="cancelUserBtn">Cancelar</button>
+                    <button type="submit" class="modal-btn confirm" id="saveUserBtn">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    
+    <div class="popup-overlay" id="deleteModal">
+        <div class="popup">
+            <div class="popup-icon">⚠</div>
+            <h3>¿Eliminar Usuario?</h3>
+            <p id="deleteMessage">¿Está seguro que desea eliminar este usuario? Esta acción no se puede deshacer.</p>
+            <div style="display: flex; gap: 10px; justify-content: center;">
+                <button class="popup-btn" style="background-color: var(--gray-color);" id="cancelDeleteBtn">Cancelar</button>
+                <button class="popup-btn" style="background-color: var(--secondary-color);" id="confirmDeleteBtn">Eliminar</button>
+            </div>
+        </div>
+    </div>
+
     <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
     <script>
-        // Configuración de Firebase
+        
         const firebaseConfig = {
             apiKey: "AIzaSyD7e2gH7-45wi3FaVfrzzgVBc0oyIW4F58",
             authDomain: "trfrom-b1295.firebaseapp.com",
@@ -644,18 +901,19 @@
             measurementId: "G-WX6FTFHF13"
         };
 
-        // Inicializar Firebase
+        
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        // Variables globales
+       
         let allUsers = [];
         let filteredUsers = [];
         let currentPage = 1;
         let pageSize = 25;
         let currentSort = { field: 'registrationDate', direction: 'desc' };
+        let currentEditingUser = null;
 
-        // Elementos del DOM
+        
         const usersTableBody = document.getElementById('usersTableBody');
         const loadingIndicator = document.getElementById('loadingIndicator');
         const noDataMessage = document.getElementById('noDataMessage');
@@ -663,6 +921,7 @@
         const attendingUsersElement = document.getElementById('attendingUsers');
         const notAttendingUsersElement = document.getElementById('notAttendingUsers');
         const todayRegistrationsElement = document.getElementById('todayRegistrations');
+        const addUserBtn = document.getElementById('addUserBtn');
         const exportExcelBtn = document.getElementById('exportExcelBtn');
         const refreshBtn = document.getElementById('refreshBtn');
         const attendanceFilter = document.getElementById('attendanceFilter');
@@ -675,15 +934,25 @@
         const pageSizeSelect = document.getElementById('pageSizeSelect');
         const successPopup = document.getElementById('successPopup');
         const successOkBtn = document.getElementById('successOkBtn');
+        const userModal = document.getElementById('userModal');
+        const userForm = document.getElementById('userForm');
+        const modalTitle = document.getElementById('modalTitle');
+        const cancelUserBtn = document.getElementById('cancelUserBtn');
+        const saveUserBtn = document.getElementById('saveUserBtn');
+        const deleteModal = document.getElementById('deleteModal');
+        const deleteMessage = document.getElementById('deleteMessage');
+        const cancelDeleteBtn = document.getElementById('cancelDeleteBtn');
+        const confirmDeleteBtn = document.getElementById('confirmDeleteBtn');
 
-        // Cargar datos al iniciar
+        
         document.addEventListener('DOMContentLoaded', function() {
             loadUsersData();
             setupEventListeners();
         });
 
-        // Configurar event listeners
+       
         function setupEventListeners() {
+            addUserBtn.addEventListener('click', openAddUserModal);
             exportExcelBtn.addEventListener('click', exportToExcel);
             refreshBtn.addEventListener('click', loadUsersData);
             attendanceFilter.addEventListener('change', applyFilters);
@@ -699,17 +968,28 @@
             successOkBtn.addEventListener('click', function() {
                 successPopup.style.display = 'none';
             });
+            cancelUserBtn.addEventListener('click', closeUserModal);
+            userForm.addEventListener('submit', saveUser);
+            cancelDeleteBtn.addEventListener('click', closeDeleteModal);
+            confirmDeleteBtn.addEventListener('click', confirmDeleteUser);
 
-            // Ordenamiento de columnas
+            
             document.querySelectorAll('th[data-sort]').forEach(th => {
                 th.addEventListener('click', function() {
                     const field = this.getAttribute('data-sort');
                     sortTable(field);
                 });
             });
+
+            
+            document.addEventListener('click', function(e) {
+                if (e.target === successPopup) successPopup.style.display = 'none';
+                if (e.target === userModal) closeUserModal();
+                if (e.target === deleteModal) closeDeleteModal();
+            });
         }
 
-        // Cargar datos de usuarios desde Firebase
+        
         function loadUsersData() {
             loadingIndicator.style.display = 'block';
             noDataMessage.style.display = 'none';
@@ -736,13 +1016,13 @@
                 });
         }
 
-        // Actualizar estadísticas
+        
         function updateStats() {
             const total = allUsers.length;
             const attending = allUsers.filter(user => user.attendance === 'Si').length;
             const notAttending = allUsers.filter(user => user.attendance === 'No').length;
             
-            // Contar registros de hoy
+            
             const today = new Date().toDateString();
             const todayRegistrations = allUsers.filter(user => {
                 const regDate = new Date(user.registrationDate).toDateString();
@@ -755,7 +1035,7 @@
             todayRegistrationsElement.textContent = todayRegistrations;
         }
 
-        // Actualizar filtro de países
+        
         function updateCountryFilter() {
             const countries = [...new Set(allUsers.map(user => user.country).filter(Boolean))].sort();
             countryFilter.innerHTML = '<option value="all">Todos los países</option>';
@@ -767,24 +1047,24 @@
             });
         }
 
-        // Aplicar filtros
+        
         function applyFilters() {
             const attendanceValue = attendanceFilter.value;
             const countryValue = countryFilter.value;
             const searchValue = searchInput.value.toLowerCase();
 
             filteredUsers = allUsers.filter(user => {
-                // Filtro por asistencia
+                
                 if (attendanceValue !== 'all' && user.attendance !== attendanceValue) {
                     return false;
                 }
 
-                // Filtro por país
+                
                 if (countryValue !== 'all' && user.country !== countryValue) {
                     return false;
                 }
 
-                // Filtro de búsqueda
+                
                 if (searchValue) {
                     const searchFields = [
                         user.name,
@@ -807,7 +1087,7 @@
             renderTable();
         }
 
-        // Ordenar tabla
+        
         function sortTable(field) {
             if (currentSort.field === field) {
                 currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
@@ -816,7 +1096,7 @@
                 currentSort.direction = 'asc';
             }
 
-            // Actualizar indicadores visuales
+            
             document.querySelectorAll('th[data-sort]').forEach(th => {
                 th.classList.remove('sort-asc', 'sort-desc');
             });
@@ -824,12 +1104,12 @@
             const currentTh = document.querySelector(`th[data-sort="${field}"]`);
             currentTh.classList.add(`sort-${currentSort.direction}`);
 
-            // Aplicar ordenamiento
+            
             filteredUsers.sort((a, b) => {
                 let aValue = a[field] || '';
                 let bValue = b[field] || '';
 
-                // Convertir a string para comparar
+                
                 aValue = String(aValue).toLowerCase();
                 bValue = String(bValue).toLowerCase();
 
@@ -843,7 +1123,7 @@
             renderTable();
         }
 
-        // Renderizar tabla
+        
         function renderTable() {
             const startIndex = (currentPage - 1) * pageSize;
             const endIndex = startIndex + pageSize;
@@ -858,12 +1138,9 @@
                 pageUsers.forEach(user => {
                     const row = document.createElement('tr');
                     
-                    // Formatear fechas
+                    
                     const regDate = user.registrationDate ? 
                         new Date(user.registrationDate).toLocaleDateString('es-ES') : 'N/A';
-                    
-                    const updateDate = user.lastUpdate ? 
-                        new Date(user.lastUpdate).toLocaleDateString('es-ES') : 'N/A';
 
                     row.innerHTML = `
                         <td>${escapeHtml(user.name || '')} ${escapeHtml(user.lastname || '')}</td>
@@ -875,7 +1152,13 @@
                         <td>${escapeHtml(user.country || '')}</td>
                         <td>${escapeHtml(user.city || '')}</td>
                         <td>${regDate}</td>
-                        <td>${updateDate}</td>
+                        <td class="actions-cell">
+                            <div class="actions-buttons">
+                                <button class="btn btn-sm btn-danger" onclick="deleteUser('${user.id}', '${user.name} ${user.lastname}')">
+                                    🗑️ Eliminar
+                                </button>
+                            </div>
+                        </td>
                     `;
                     usersTableBody.appendChild(row);
                 });
@@ -884,22 +1167,22 @@
             updatePagination();
         }
 
-        // Actualizar controles de paginación
+        
         function updatePagination() {
             const totalPages = Math.ceil(filteredUsers.length / pageSize);
             
-            // Actualizar información
+            
             const start = Math.min((currentPage - 1) * pageSize + 1, filteredUsers.length);
             const end = Math.min(currentPage * pageSize, filteredUsers.length);
             paginationInfo.textContent = `Mostrando ${start}-${end} de ${filteredUsers.length} registros`;
             pageInfo.textContent = `Página ${currentPage} de ${totalPages}`;
 
-            // Actualizar botones
+            
             prevPageBtn.disabled = currentPage === 1;
             nextPageBtn.disabled = currentPage === totalPages || totalPages === 0;
         }
 
-        // Navegación de páginas
+       
         function goToPrevPage() {
             if (currentPage > 1) {
                 currentPage--;
@@ -915,10 +1198,151 @@
             }
         }
 
-        // Exportar a Excel
+        
+        function openAddUserModal() {
+            currentEditingUser = null;
+            modalTitle.textContent = 'Agregar Nuevo Usuario';
+            userForm.reset();
+            hideAllErrors();
+            userModal.style.display = 'flex';
+        }
+
+        
+        function closeUserModal() {
+            userModal.style.display = 'none';
+            userForm.reset();
+            hideAllErrors();
+            currentEditingUser = null;
+        }
+
+        
+        function saveUser(e) {
+            e.preventDefault();
+            
+           
+            const name = document.getElementById('modalName').value.trim();
+            const lastname = document.getElementById('modalLastname').value.trim();
+            const email = document.getElementById('modalEmail').value.trim();
+            const attendance = document.getElementById('modalAttendance').value;
+            const foodRestriction = document.getElementById('modalFoodRestriction').value.trim();
+            const address = document.getElementById('modalAddress').value.trim();
+            const country = document.getElementById('modalCountry').value;
+            const city = document.getElementById('modalCity').value.trim();
+
+            
+            if (!validateUserForm(name, lastname, email, attendance, foodRestriction, address, country, city)) {
+                return;
+            }
+
+            const userData = {
+                name: name,
+                lastname: lastname,
+                email: email,
+                attendance: attendance,
+                foodRestriction: foodRestriction,
+                address: address,
+                country: country,
+                city: city,
+                registrationDate: new Date().toISOString(),
+                lastUpdate: new Date().toISOString()
+            };
+
+            const sanitizedEmail = email.replace(/\./g, '');
+
+            
+            database.ref("Users/" + sanitizedEmail).set(userData)
+                .then(() => {
+                    showSuccess('Usuario guardado correctamente');
+                    closeUserModal();
+                    loadUsersData(); 
+                })
+                .catch(error => {
+                    console.error('Error saving user:', error);
+                    showError('Error al guardar el usuario');
+                });
+        }
+
+        
+        function validateUserForm(name, lastname, email, attendance, foodRestriction, address, country, city) {
+            let isValid = true;
+            hideAllErrors();
+
+            if (!name) {
+                showError('modalName', 'modalNameError', 'Por favor ingrese el nombre');
+                isValid = false;
+            }
+
+            if (!lastname) {
+                showError('modalLastname', 'modalLastnameError', 'Por favor ingrese el apellido');
+                isValid = false;
+            }
+
+            if (!email || !isValidEmail(email)) {
+                showError('modalEmail', 'modalEmailError', 'Por favor ingrese un email válido');
+                isValid = false;
+            }
+
+            if (!attendance) {
+                showError('modalAttendance', 'modalAttendanceError', 'Por favor seleccione la asistencia');
+                isValid = false;
+            }
+
+            if (!foodRestriction) {
+                showError('modalFoodRestriction', 'modalFoodRestrictionError', 'Por favor ingrese la restricción alimentaria');
+                isValid = false;
+            }
+
+            if (!address) {
+                showError('modalAddress', 'modalAddressError', 'Por favor ingrese la dirección');
+                isValid = false;
+            }
+
+            if (!country) {
+                showError('modalCountry', 'modalCountryError', 'Por favor seleccione el país');
+                isValid = false;
+            }
+
+            if (!city) {
+                showError('modalCity', 'modalCityError', 'Por favor ingrese la ciudad');
+                isValid = false;
+            }
+
+            return isValid;
+        }
+
+       
+        function deleteUser(userId, userName) {
+            currentEditingUser = userId;
+            deleteMessage.textContent = `¿Está seguro que desea eliminar a ${userName}? Esta acción no se puede deshacer.`;
+            deleteModal.style.display = 'flex';
+        }
+
+        
+        function confirmDeleteUser() {
+            if (currentEditingUser) {
+                database.ref("Users/" + currentEditingUser).remove()
+                    .then(() => {
+                        showSuccess('Usuario eliminado correctamente');
+                        closeDeleteModal();
+                        loadUsersData(); 
+                    })
+                    .catch(error => {
+                        console.error('Error deleting user:', error);
+                        showError('Error al eliminar el usuario');
+                    });
+            }
+        }
+
+        
+        function closeDeleteModal() {
+            deleteModal.style.display = 'none';
+            currentEditingUser = null;
+        }
+
+       
         function exportToExcel() {
             try {
-                // Preparar datos para Excel
+                
                 const excelData = filteredUsers.map(user => ({
                     'Nombre': user.name || '',
                     'Apellido': user.lastname || '',
@@ -934,11 +1358,11 @@
                         new Date(user.lastUpdate).toLocaleDateString('es-ES') : ''
                 }));
 
-                // Crear libro de trabajo
+                
                 const wb = XLSX.utils.book_new();
                 const ws = XLSX.utils.json_to_sheet(excelData);
 
-                // Ajustar anchos de columnas
+               
                 const colWidths = [
                     { wch: 15 }, // Nombre
                     { wch: 15 }, // Apellido
@@ -953,14 +1377,14 @@
                 ];
                 ws['!cols'] = colWidths;
 
-                // Agregar hoja al libro
+               
                 XLSX.utils.book_append_sheet(wb, ws, 'Registros Trane');
 
-                // Generar archivo y descargar
+                
                 const fileName = `Registros_Informe_${new Date().toISOString().split('T')[0]}.xlsx`;
                 XLSX.writeFile(wb, fileName);
 
-                // Mostrar mensaje de éxito
+                
                 document.getElementById('successMessage').textContent = 
                     `Se han exportado ${filteredUsers.length} registros correctamente.`;
                 successPopup.style.display = 'flex';
@@ -971,23 +1395,46 @@
             }
         }
 
-        // Utilidades
+        
         function escapeHtml(text) {
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
         }
 
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+
+        function showError(fieldId, errorId, message) {
+            document.getElementById(fieldId).style.borderColor = 'var(--secondary-color)';
+            const errorElement = document.getElementById(errorId);
+            errorElement.textContent = message;
+            errorElement.style.display = 'block';
+        }
+
+        function hideError(fieldId, errorId) {
+            document.getElementById(fieldId).style.borderColor = '';
+            document.getElementById(errorId).style.display = 'none';
+        }
+
+        function hideAllErrors() {
+            const errors = document.querySelectorAll('.error');
+            errors.forEach(error => error.style.display = 'none');
+            
+            const inputs = document.querySelectorAll('.form-control');
+            inputs.forEach(input => input.style.borderColor = '');
+        }
+
+        function showSuccess(message) {
+            document.getElementById('successMessage').textContent = message;
+            successPopup.style.display = 'flex';
+        }
+
         function showError(message) {
             alert('Error: ' + message);
         }
-
-        // Cerrar popup al hacer clic fuera
-        document.addEventListener('click', function(e) {
-            if (e.target === successPopup) {
-                successPopup.style.display = 'none';
-            }
-        });
     </script>
 </body>
 

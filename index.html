@@ -42,43 +42,43 @@
             -webkit-text-size-adjust: 100%;
         }
 
-       body {
-    font-family: "Roboto", sans-serif;
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--dark-color);
-    background: linear-gradient(135deg, #e9eae5 0%, #d1dfe2 100%);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    position: relative; 
-    overflow: hidden;
-}
+        body {
+            font-family: "Roboto", sans-serif;
+            font-size: 16px;
+            line-height: 1.6;
+            color: var(--dark-color);
+            background: linear-gradient(135deg, #e9eae5 0%, #d1dfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            position: relative;
+            overflow: hidden;
+        }
 
 
-body::before {
-    content: "";
-    position: absolute;
-    inset: 0; 
-    background: url("bgheader.png") center/cover no-repeat;
-    filter: blur(8px);
-    transform: scale(1.1); 
-    z-index: -2; 
-}
+        body::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: url("bgheader.png") center/cover no-repeat;
+            filter: blur(8px);
+            transform: scale(1.1);
+            z-index: -2;
+        }
 
 
-body::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(135deg, rgba(233,234,229,0.85) 0%, rgba(209,223,226,0.85) 100%);
-    z-index: -1;
-}
+        body::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(233, 234, 229, 0.85) 0%, rgba(209, 223, 226, 0.85) 100%);
+            z-index: -1;
+        }
 
 
         .container {
@@ -339,7 +339,7 @@ body::after {
             }
         }
 
-       
+
         .popup-overlay {
             display: none;
             position: fixed;
@@ -431,7 +431,7 @@ body::after {
             background-color: #238f7a;
         }
 
-        
+
         .modal-overlay {
             display: none;
             position: fixed;
@@ -493,7 +493,7 @@ body::after {
             color: white;
         }
 
-       
+
         @media (max-width: 479px) {
             body {
                 padding: 10px;
@@ -750,7 +750,7 @@ body::after {
         </div>
     </div>
 
-    
+
     <div class="popup-overlay" id="successPopup">
         <div class="popup popup-success">
             <div class="popup-icon">✓</div>
@@ -760,7 +760,7 @@ body::after {
         </div>
     </div>
 
-    
+
     <div class="popup-overlay" id="warningPopup">
         <div class="popup popup-warning">
             <div class="popup-icon">⚠</div>
@@ -771,7 +771,7 @@ body::after {
         </div>
     </div>
 
-    
+
     <div class="popup-overlay" id="infoPopup">
         <div class="popup popup-info">
             <div class="popup-icon">ℹ</div>
@@ -785,7 +785,7 @@ body::after {
         </div>
     </div>
 
- 
+
     <div class="modal-overlay" id="updateModal">
         <div class="modal">
             <h3>¿Actualizar información?</h3>
@@ -801,7 +801,7 @@ body::after {
     <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
     <script>
-      
+
         const firebaseConfig = {
             apiKey: "AIzaSyD7e2gH7-45wi3FaVfrzzgVBc0oyIW4F58",
             authDomain: "trfrom-b1295.firebaseapp.com",
@@ -813,17 +813,17 @@ body::after {
             measurementId: "G-WX6FTFHF13"
         };
 
-        
+
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-        
+
         const form = document.getElementById('registrationForm');
         const submitButton = document.getElementById('submitButton');
         const updateButton = document.getElementById('updateButton');
         const loadingIndicator = document.getElementById('loadingIndicator');
 
-        
+
         const successPopup = document.getElementById('successPopup');
         const warningPopup = document.getElementById('warningPopup');
         const infoPopup = document.getElementById('infoPopup');
@@ -832,34 +832,34 @@ body::after {
         const infoUpdateBtn = document.getElementById('infoUpdateBtn');
         const infoCancelBtn = document.getElementById('infoCancelBtn');
 
-        
+
         const updateModal = document.getElementById('updateModal');
         const confirmUpdate = document.getElementById('confirmUpdate');
         const cancelUpdate = document.getElementById('cancelUpdate');
 
-        
+
         let existingUserData = null;
         let hasChanges = false;
 
-        
+
         function showError(fieldId, errorId) {
             document.getElementById(fieldId).classList.add('error-field');
             document.getElementById(errorId).style.display = 'block';
         }
 
-        
+
         function hideError(fieldId, errorId) {
             document.getElementById(fieldId).classList.remove('error-field');
             document.getElementById(errorId).style.display = 'none';
         }
 
-        
+
         function isValidEmail(email) {
             const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return emailRegex.test(email);
         }
 
-        
+
         function getUserData(email) {
             const sanitizedEmail = email.replace(/\./g, '');
             return database.ref("Users/" + sanitizedEmail).once('value')
@@ -871,7 +871,7 @@ body::after {
                 });
         }
 
-       
+
         function checkForChanges(currentData, existingData) {
             if (!existingData) return false;
 
@@ -886,7 +886,7 @@ body::after {
             );
         }
 
-  
+
         function loadExistingData(data) {
             document.getElementById('name').value = data.name || '';
             document.getElementById('lastname').value = data.lastname || '';
@@ -897,7 +897,7 @@ body::after {
             document.getElementById('city').value = data.city || '';
         }
 
-    
+
         async function submitForm(formData) {
             const {
                 name,
@@ -912,7 +912,7 @@ body::after {
 
             const sanitizedEmail = email.replace(/\./g, '');
 
-           
+
             await database.ref("Users/" + sanitizedEmail).set({
                 name: name,
                 lastname: lastname,
@@ -929,7 +929,7 @@ body::after {
             return true;
         }
 
-        
+
         async function updateForm(formData) {
             const {
                 name,
@@ -944,7 +944,7 @@ body::after {
 
             const sanitizedEmail = email.replace(/\./g, '');
 
-           
+
             await database.ref("Users/" + sanitizedEmail).update({
                 name: name,
                 lastname: lastname,
@@ -959,23 +959,23 @@ body::after {
             return true;
         }
 
-        
+
         function showSuccessPopup(message) {
             document.getElementById('successMessage').textContent = message;
             successPopup.style.display = 'flex';
         }
 
-      
+
         function showWarningPopup() {
             warningPopup.style.display = 'flex';
         }
 
-        
+
         function showInfoPopup() {
             infoPopup.style.display = 'flex';
         }
 
-        
+
         function closeAllPopups() {
             successPopup.style.display = 'none';
             warningPopup.style.display = 'none';
@@ -983,7 +983,7 @@ body::after {
             updateModal.style.display = 'none';
         }
 
-       
+
         successOkBtn.addEventListener('click', closeAllPopups);
         warningOkBtn.addEventListener('click', closeAllPopups);
 
@@ -994,14 +994,14 @@ body::after {
 
         infoCancelBtn.addEventListener('click', closeAllPopups);
 
-        
+
         form.addEventListener('submit', async function (e) {
             e.preventDefault();
 
-            
+
             closeAllPopups();
 
-         
+
             const name = document.getElementById('name').value.trim();
             const lastname = document.getElementById('lastname').value.trim();
             const email = document.getElementById('email').value.trim();
@@ -1011,7 +1011,7 @@ body::after {
             const country = document.getElementById('country').value;
             const city = document.getElementById('city').value.trim();
 
-       
+
             let isValid = true;
 
             if (!name) {
@@ -1074,12 +1074,12 @@ body::after {
                 return;
             }
 
-          
+
             submitButton.disabled = true;
             loadingIndicator.style.display = 'block';
 
             try {
-                
+
                 existingUserData = await getUserData(email);
                 const currentFormData = {
                     name,
@@ -1093,21 +1093,21 @@ body::after {
                 };
 
                 if (existingUserData) {
-                    
+
                     hasChanges = checkForChanges(currentFormData, existingUserData);
 
                     if (hasChanges) {
-                      
+
                         showInfoPopup();
                         updateButton.style.display = 'block';
                         submitButton.style.display = 'none';
                     } else {
-                       
+
                         showWarningPopup();
                         loadExistingData(existingUserData);
                     }
                 } else {
-                   
+
                     await submitForm(currentFormData);
                     showSuccessPopup('¡Registro completado satisfactoriamente! Su información ha sido guardada correctamente.');
                     form.reset();
@@ -1124,12 +1124,12 @@ body::after {
             }
         });
 
-     
+
         updateButton.addEventListener('click', function () {
             updateModal.style.display = 'flex';
         });
 
-       
+
         confirmUpdate.addEventListener('click', async function () {
             updateModal.style.display = 'none';
             updateButton.disabled = true;
@@ -1172,12 +1172,12 @@ body::after {
             }
         });
 
-       
+
         cancelUpdate.addEventListener('click', function () {
             updateModal.style.display = 'none';
         });
 
-       
+
         document.getElementById('email').addEventListener('blur', async function () {
             const email = this.value.trim();
 
@@ -1195,10 +1195,10 @@ body::after {
             }
         });
 
-       
+
         document.addEventListener('touchstart', function () { }, { passive: true });
 
-        
+
         document.addEventListener('click', function (e) {
             if (e.target.classList.contains('popup-overlay') || e.target.classList.contains('modal-overlay')) {
                 closeAllPopups();
