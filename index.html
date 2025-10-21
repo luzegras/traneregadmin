@@ -85,7 +85,7 @@
             justify-content: space-between;
             align-items: center;
             width: 100%;
-          
+
         }
 
 
@@ -118,7 +118,7 @@
             flex-wrap: wrap;
         }
 
-       
+
 
         .event-location {
             font-family: "Roboto", sans-serif;
@@ -134,7 +134,7 @@
             font-weight: 600;
             text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
 
-           
+
             color: white;
             letter-spacing: 1px;
         }
@@ -586,6 +586,12 @@
 
         <div class="form-container">
             <form id="registrationForm">
+                <div class="form-group">
+                    <label for="email" class="required">Email</label>
+                    <input type="email" id="email" class="form-control" placeholder="ejemplo@correo.com" required>
+                    <div class="error" id="emailError">Por favor ingrese un email válido</div>
+                </div>
+
                 <div class="form-row">
                     <div class="form-group">
                         <label for="name" class="required">Nombre</label>
@@ -600,11 +606,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label for="email" class="required">Email</label>
-                    <input type="email" id="email" class="form-control" placeholder="ejemplo@correo.com" required>
-                    <div class="error" id="emailError">Por favor ingrese un email válido</div>
-                </div>
+
 
                 <div class="form-row">
                     <div class="form-group">
@@ -636,60 +638,60 @@
                     </div>
                 </div>
 
-               
+
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="country" class="required">País</label>
-                      <select id="country" class="form-control" required>
-  <option value="" disabled selected>Seleccione su país</option>
+                        <select id="country" class="form-control" required>
+                            <option value="" disabled selected>Seleccione su país</option>
 
-  <!-- América del Norte -->
-  <option value="Canada">Canadá</option>
-  <option value="Estados Unidos">Estados Unidos</option>
-  <option value="Mexico">México</option>
+                            <!-- América del Norte -->
+                            <option value="Canada">Canadá</option>
+                            <option value="Estados Unidos">Estados Unidos</option>
+                            <option value="Mexico">México</option>
 
-  <!-- América Central -->
-  <option value="Belice">Belice</option>
-  <option value="Costa Rica">Costa Rica</option>
-  <option value="El Salvador">El Salvador</option>
-  <option value="Guatemala">Guatemala</option>
-  <option value="Honduras">Honduras</option>
-  <option value="Nicaragua">Nicaragua</option>
-  <option value="Panama">Panamá</option>
+                            <!-- América Central -->
+                            <option value="Belice">Belice</option>
+                            <option value="Costa Rica">Costa Rica</option>
+                            <option value="El Salvador">El Salvador</option>
+                            <option value="Guatemala">Guatemala</option>
+                            <option value="Honduras">Honduras</option>
+                            <option value="Nicaragua">Nicaragua</option>
+                            <option value="Panama">Panamá</option>
 
-  <!-- Caribe -->
-  <option value="Antigua y Barbuda">Antigua y Barbuda</option>
-  <option value="Bahamas">Bahamas</option>
-  <option value="Barbados">Barbados</option>
-  <option value="Cuba">Cuba</option>
-  <option value="Dominica">Dominica</option>
-  <option value="Granada">Granada</option>
-  <option value="Haiti">Haití</option>
-  <option value="Jamaica">Jamaica</option>
-  <option value="Republica Dominicana">República Dominicana</option>
-  <option value="San Cristobal y Nieves">San Cristóbal y Nieves</option>
-  <option value="Santa Lucia">Santa Lucía</option>
-  <option value="San Vicente y las Granadinas">San Vicente y las Granadinas</option>
-  <option value="Trinidad y Tobago">Trinidad y Tobago</option>
+                            <!-- Caribe -->
+                            <option value="Antigua y Barbuda">Antigua y Barbuda</option>
+                            <option value="Bahamas">Bahamas</option>
+                            <option value="Barbados">Barbados</option>
+                            <option value="Cuba">Cuba</option>
+                            <option value="Dominica">Dominica</option>
+                            <option value="Granada">Granada</option>
+                            <option value="Haiti">Haití</option>
+                            <option value="Jamaica">Jamaica</option>
+                            <option value="Republica Dominicana">República Dominicana</option>
+                            <option value="San Cristobal y Nieves">San Cristóbal y Nieves</option>
+                            <option value="Santa Lucia">Santa Lucía</option>
+                            <option value="San Vicente y las Granadinas">San Vicente y las Granadinas</option>
+                            <option value="Trinidad y Tobago">Trinidad y Tobago</option>
 
-  <!-- América del Sur -->
-  <option value="Argentina">Argentina</option>
-  <option value="Bolivia">Bolivia</option>
-  <option value="Brasil">Brasil</option>
-  <option value="Chile">Chile</option>
-  <option value="Colombia">Colombia</option>
-  <option value="Ecuador">Ecuador</option>
-  <option value="Guyana">Guyana</option>
-  <option value="Paraguay">Paraguay</option>
-  <option value="Peru">Perú</option>
-  <option value="Surinam">Surinam</option>
-  <option value="Uruguay">Uruguay</option>
-  <option value="Venezuela">Venezuela</option>
+                            <!-- América del Sur -->
+                            <option value="Argentina">Argentina</option>
+                            <option value="Bolivia">Bolivia</option>
+                            <option value="Brasil">Brasil</option>
+                            <option value="Chile">Chile</option>
+                            <option value="Colombia">Colombia</option>
+                            <option value="Ecuador">Ecuador</option>
+                            <option value="Guyana">Guyana</option>
+                            <option value="Paraguay">Paraguay</option>
+                            <option value="Peru">Perú</option>
+                            <option value="Surinam">Surinam</option>
+                            <option value="Uruguay">Uruguay</option>
+                            <option value="Venezuela">Venezuela</option>
 
-  <!-- Extra -->
-  <option value="Otro">Otro</option>
-</select>
+                            <!-- Extra -->
+                            <option value="Otro">Otro</option>
+                        </select>
 
                         <div class="error" id="countryError">Por favor seleccione su país</div>
                     </div>
@@ -699,9 +701,10 @@
                         <div class="error" id="cityError">Por favor ingrese su ciudad</div>
                     </div>
                 </div>
- <div class="form-group">
+                <div class="form-group">
                     <label for="address" class="required">Dirección</label>
-                    <textarea id="address" class="form-control" placeholder="Escriba su dirección o área de residencia" required></textarea>
+                    <textarea id="address" class="form-control" placeholder="Escriba su dirección o área de residencia"
+                        required></textarea>
 
                     <div class="error" id="addressError">Por favor ingrese su dirección</div>
                 </div>
