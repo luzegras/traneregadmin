@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Pacto 2026 - Generar Informe</title>
-     <link rel="icon" href="trane-favicon.png">
+    <link rel="icon" href="trane-favicon.png">
    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 
@@ -32,7 +32,7 @@
 
         .container {
             text-align: center;
-            max-width: 800px;
+            max-width: 900px;
             width: 100%;
             background: #e9eae5;
             backdrop-filter: blur(10px);
@@ -46,7 +46,6 @@
             width: 120px;
             height: auto;
             margin-bottom: 30px;
-           
         }
 
         .title {
@@ -74,7 +73,7 @@
 
         .spinner {
             border: 6px solid rgba(255, 255, 255, 0.3);
-            border-top: 6px solid white;
+            border-top: 6px solid #00326c;
             border-radius: 50%;
             width: 80px;
             height: 80px;
@@ -120,9 +119,8 @@
             padding: 30px;
             border-radius: 15px;
             margin: 30px 0;
-            display: none;
             box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-              color: white;
+            color: white;
         }
 
         .success-icon {
@@ -156,6 +154,10 @@
             background: linear-gradient(45deg, #ff2b00, #ff2b00);
         }
 
+        .refresh-btn {
+            background: linear-gradient(45deg, #00326c, #4f95b3);
+        }
+
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -169,6 +171,17 @@
             padding: 20px;
             border-radius: 15px;
             backdrop-filter: blur(5px);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card.updated {
+            animation: pulse 0.5s ease;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
         }
 
         .stat-number {
@@ -180,6 +193,44 @@
         .stat-label {
             font-size: 0.9rem;
             opacity: 0.8;
+        }
+
+        .realtime-info {
+            background: #00326c;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .pulse-dot {
+            width: 12px;
+            height: 12px;
+            background: #00ff00;
+            border-radius: 50%;
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .last-update {
+            font-size: 0.9rem;
+            opacity: 0.8;
+            margin-top: 10px;
         }
 
         .footer {
@@ -228,7 +279,7 @@
         <img src="trane-logo.png" alt="Pacto 2026" class="logo">
         
         <h1 class="title">PACTO 2026</h1>
-        <p class="subtitle">Generador de informe</p>
+        <p class="subtitle">Generador de informe en tiempo real</p>
 
         <div class="loading-container" id="loadingSection">
             <div class="spinner"></div>
@@ -239,33 +290,42 @@
             <div class="status" id="statusText">Conectando con la base de datos...</div>
         </div>
 
+        <div class="realtime-info" id="realtimeInfo" style="display: none;">
+            <div class="pulse-dot"></div>
+            <span>Conectado en tiempo real - Los datos se actualizan automáticamente</span>
+        </div>
+
         <div class="stats" id="statsSection" style="display: none;">
-            <div class="stat-card">
+            <div class="stat-card" id="totalUsersCard">
                 <div class="stat-number" id="totalUsers">0</div>
                 <div class="stat-label">Total Registrados</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card" id="attendingUsersCard">
                 <div class="stat-number" id="attendingUsers">0</div>
                 <div class="stat-label">Confirmaron Asistencia</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card" id="notAttendingUsersCard">
                 <div class="stat-number" id="notAttendingUsers">0</div>
                 <div class="stat-label">No Asistirán</div>
             </div>
-            <div class="stat-card">
+            <div class="stat-card" id="todayRegistrationsCard">
                 <div class="stat-number" id="todayRegistrations">0</div>
                 <div class="stat-label">Registros Hoy</div>
             </div>
         </div>
 
-        <div class="success-message" id="successSection">
-            <div class="success-icon">✅</div>
+        <div class="success-message" id="successSection" style="display: none;">
+           
             <h3>¡Informe Generado Exitosamente!</h3>
-            <p id="successMessage">Se han procesado <span id="processedCount">0</span> registros.</p>
+            <p id="successMessage">Datos en tiempo real. <span id="processedCount">0</span> registros cargados.</p>
+            <p class="last-update" id="lastUpdate">Última actualización: <span id="lastUpdateTime">--:--:--</span></p>
             <div>
-                <a href="#" class="download-btn" id="downloadBtn">
-                    📥 Descargar Excel
-                </a>
+                <button class="download-btn" id="downloadBtn">
+                    📥 Generar Excel Actualizado
+                </button>
+                <button class="download-btn refresh-btn" id="refreshBtn">
+                    🔄 Actualizar Manualmente
+                </button>
                 <button class="download-btn secondary-btn" onclick="window.close()">
                     Cerrar
                 </button>
@@ -273,14 +333,13 @@
         </div>
 
         <div class="footer">
-            <p>Trane Technologies © 2025 - Sistema de Gestión de Registros</p>
+            <p>Trane Technologies © 2025 - Sistema de Gestión de Registros en Tiempo Real</p>
         </div>
     </div>
 
     <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
     <script>
-       
         const firebaseConfig = {
             apiKey: "AIzaSyD7e2gH7-45wi3FaVfrzzgVBc0oyIW4F58",
             authDomain: "trfrom-b1295.firebaseapp.com",
@@ -292,14 +351,13 @@
             measurementId: "G-WX6FTFHF13"
         };
 
-       
         firebase.initializeApp(firebaseConfig);
         const database = firebase.database();
 
-       
         const loadingSection = document.getElementById('loadingSection');
         const statsSection = document.getElementById('statsSection');
         const successSection = document.getElementById('successSection');
+        const realtimeInfo = document.getElementById('realtimeInfo');
         const progressBar = document.getElementById('progressBar');
         const statusText = document.getElementById('statusText');
         const totalUsersElement = document.getElementById('totalUsers');
@@ -308,41 +366,33 @@
         const todayRegistrationsElement = document.getElementById('todayRegistrations');
         const processedCountElement = document.getElementById('processedCount');
         const downloadBtn = document.getElementById('downloadBtn');
-        const successMessage = document.getElementById('successMessage');
+        const refreshBtn = document.getElementById('refreshBtn');
+        const lastUpdateTime = document.getElementById('lastUpdateTime');
 
-      
         let allUsers = [];
-        let excelFileUrl = null;
+        let realtimeListener = null;
 
-       
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(startProcess, 1000);
         });
 
-      
         async function startProcess() {
             try {
                 updateProgress(10, 'Conectando con la base de datos...');
                 
-               
-                await loadUsersData();
+                await loadInitialData();
                 
-                updateProgress(50, 'Procesando información...');
+                updateProgress(50, 'Configurando escucha en tiempo real...');
                 
+                setupRealtimeListener();
+                
+                updateProgress(80, 'Inicializando sistema...');
                 
                 updateStats();
                 
-                updateProgress(70, 'Generando archivo Excel...');
+                updateProgress(100, '¡Sistema listo!');
                 
-                
-                await generateExcel();
-                
-                updateProgress(90, 'Preparando descarga...');
-                
-               
                 setTimeout(showResults, 1000);
-                
-                updateProgress(100, '¡Proceso completado!');
                 
             } catch (error) {
                 console.error('Error en el proceso:', error);
@@ -351,17 +401,11 @@
             }
         }
 
-    
-        async function loadUsersData() {
+        async function loadInitialData() {
             return new Promise((resolve, reject) => {
                 database.ref("Users").once('value')
                     .then(snapshot => {
-                        allUsers = [];
-                        snapshot.forEach(childSnapshot => {
-                            const user = childSnapshot.val();
-                            user.id = childSnapshot.key;
-                            allUsers.push(user);
-                        });
+                        processSnapshot(snapshot);
                         resolve();
                     })
                     .catch(error => {
@@ -370,92 +414,145 @@
             });
         }
 
-       
+        function setupRealtimeListener() {
+            // Escuchar cambios en tiempo real
+            realtimeListener = database.ref("Users").on('value', (snapshot) => {
+                processSnapshot(snapshot);
+                showUpdateNotification();
+            }, (error) => {
+                console.error('Error en escucha en tiempo real:', error);
+            });
+        }
+
+        function processSnapshot(snapshot) {
+            allUsers = [];
+            snapshot.forEach(childSnapshot => {
+                const user = childSnapshot.val();
+                user.id = childSnapshot.key;
+                allUsers.push(user);
+            });
+            
+            updateStats();
+            updateLastUpdateTime();
+        }
+
         function updateStats() {
             const total = allUsers.length;
             const attending = allUsers.filter(user => user.attendance === 'Si').length;
             const notAttending = allUsers.filter(user => user.attendance === 'No').length;
             
-           
             const today = new Date().toDateString();
             const todayRegistrations = allUsers.filter(user => {
                 const regDate = user.registrationDate ? new Date(user.registrationDate).toDateString() : '';
                 return regDate === today;
             }).length;
 
-            totalUsersElement.textContent = total;
-            attendingUsersElement.textContent = attending;
-            notAttendingUsersElement.textContent = notAttending;
-            todayRegistrationsElement.textContent = todayRegistrations;
+            // Animar cambios en las estadísticas
+            animateStatChange('totalUsers', total);
+            animateStatChange('attendingUsers', attending);
+            animateStatChange('notAttendingUsers', notAttending);
+            animateStatChange('todayRegistrations', todayRegistrations);
+
+            processedCountElement.textContent = total;
         }
 
-       
-        async function generateExcel() {
-            return new Promise((resolve) => {
-                // Preparar datos para Excel
-                const excelData = allUsers.map(user => ({
-                    'Nombre': user.name || '',
-                    'Apellido': user.lastname || '',
-                    'Email': user.email || '',
-                    'Asistencia': user.attendance || '',
-                    'Restricción Alimentaria': user.foodRestriction || '',
-                    'Dirección': user.address || '',
-                    'País': user.country || '',
-                    'Ciudad': user.city || '',
-                    'Fecha Registro': user.registrationDate ? 
-                        new Date(user.registrationDate).toLocaleDateString('es-ES') : '',
-                    'Última Actualización': user.lastUpdate ? 
-                        new Date(user.lastUpdate).toLocaleDateString('es-ES') : ''
-                }));
-
+        function animateStatChange(elementId, newValue) {
+            const element = document.getElementById(elementId);
+            const card = document.getElementById(elementId + 'Card');
+            const oldValue = parseInt(element.textContent) || 0;
             
-                const wb = XLSX.utils.book_new();
-                const ws = XLSX.utils.json_to_sheet(excelData);
-
-                
-                const colWidths = [
-                    { wch: 15 }, { wch: 15 }, { wch: 25 }, { wch: 12 },
-                    { wch: 20 }, { wch: 30 }, { wch: 15 }, { wch: 15 },
-                    { wch: 15 }, { wch: 15 }
-                ];
-                ws['!cols'] = colWidths;
-
-                
-                XLSX.utils.book_append_sheet(wb, ws, 'Registros Pacto 2026');
-
-               
-                const fileName = `Pacto_2026_Informe_${new Date().toISOString().split('T')[0]}.xlsx`;
-                XLSX.writeFile(wb, fileName);
-
-                processedCountElement.textContent = allUsers.length;
-                resolve();
-            });
+            if (oldValue !== newValue) {
+                element.textContent = newValue;
+                card.classList.add('updated');
+                setTimeout(() => {
+                    card.classList.remove('updated');
+                }, 500);
+            }
         }
 
-      
+        function updateLastUpdateTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('es-ES');
+            lastUpdateTime.textContent = timeString;
+        }
+
+        function showUpdateNotification() {
+            // Efecto visual para notificar actualización
+            realtimeInfo.style.display = 'flex';
+            setTimeout(() => {
+                realtimeInfo.style.display = 'none';
+            }, 3000);
+        }
+
+        function generateExcel() {
+            const excelData = allUsers.map(user => ({
+                'Nombre': user.name || '',
+                'Apellido': user.lastname || '',
+                'Email': user.email || '',
+                'Asistencia': user.attendance || '',
+                'Restricción Alimentaria': user.foodRestriction || '',
+                'Dirección': user.address || '',
+                'País': user.country || '',
+                'Ciudad': user.city || '',
+                'Fecha Registro': user.registrationDate ? 
+                    new Date(user.registrationDate).toLocaleDateString('es-ES') : '',
+                'Última Actualización': user.lastUpdate ? 
+                    new Date(user.lastUpdate).toLocaleDateString('es-ES') : ''
+            }));
+
+            const wb = XLSX.utils.book_new();
+            const ws = XLSX.utils.json_to_sheet(excelData);
+
+            const colWidths = [
+                { wch: 15 }, { wch: 15 }, { wch: 25 }, { wch: 12 },
+                { wch: 20 }, { wch: 30 }, { wch: 15 }, { wch: 15 },
+                { wch: 15 }, { wch: 15 }
+            ];
+            ws['!cols'] = colWidths;
+
+            XLSX.utils.book_append_sheet(wb, ws, 'Registros Pacto 2026');
+
+            const fileName = `Pacto_2026_Informe_${new Date().toISOString().split('T')[0]}_${Date.now()}.xlsx`;
+            XLSX.writeFile(wb, fileName);
+
+            // Mostrar notificación de éxito
+            showTemporarySuccess('Excel generado con datos actualizados');
+        }
+
+        function showTemporarySuccess(message) {
+            const originalMessage = successMessage.textContent;
+            successMessage.textContent = message;
+            setTimeout(() => {
+                successMessage.textContent = originalMessage;
+            }, 3000);
+        }
+
         function showResults() {
             loadingSection.style.display = 'none';
             statsSection.style.display = 'grid';
             successSection.style.display = 'block';
             
-          
-            downloadBtn.addEventListener('click', function(e) {
-                e.preventDefault();
-                //
+            downloadBtn.addEventListener('click', function() {
                 generateExcel();
+            });
+
+            refreshBtn.addEventListener('click', function() {
+                loadInitialData();
+                showTemporarySuccess('Datos actualizados manualmente');
             });
         }
 
-     
         function updateProgress(percent, message) {
             progressBar.style.width = percent + '%';
             statusText.textContent = message;
         }
 
-       
-        function formatNumber(num) {
-            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-        }
+        // Limpiar el listener cuando se cierre la página
+        window.addEventListener('beforeunload', function() {
+            if (realtimeListener) {
+                database.ref("Users").off('value', realtimeListener);
+            }
+        });
     </script>
 </body>
 
