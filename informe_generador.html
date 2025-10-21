@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Pacto 2026 - Generar Informe</title>
+    
+   
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #d1dfe2 0%, #d1dfe2 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            color: black;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 800px;
+            width: 100%;
+            background: #e9eae5;
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 30px;
+           
+        }
+
+        .title {
+            color: #00326c;
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 10px;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+            background: linear-gradient(45deg, #00326c, #4f95b3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        .loading-container {
+            margin: 40px 0;
+        }
+
+        .spinner {
+            border: 6px solid rgba(255, 255, 255, 0.3);
+            border-top: 6px solid white;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            animation: spin 1.5s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .loading-text {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+
+        .progress {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #00b09b, #96c93d);
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .status {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-top: 10px;
+        }
+
+        .success-message {
+            background: #00326c;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 30px 0;
+            display: none;
+            box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+              color: white;
+        }
+
+        .success-icon {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+
+        .download-btn {
+            background: linear-gradient(45deg, #00b09b, #96c93d);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .secondary-btn {
+            background: linear-gradient(45deg, #ff2b00, #ff2b00);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .stat-card {
+            box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(5px);
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .footer {
+            margin-top: 40px;
+            opacity: 0.7;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .title {
+                font-size: 3rem;
+            }
+            
+            .subtitle {
+                font-size: 1.2rem;
+            }
+            
+            .container {
+                padding: 30px 20px;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .stats {
+                grid-template-columns: 1fr;
+            }
+            
+            .download-btn {
+                padding: 12px 30px;
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <img src="trane-logo.png" alt="Pacto 2026" class="logo">
+        
+        <h1 class="title">PACTO 2026</h1>
+        <p class="subtitle">Generador de informe</p>
+
+        <div class="loading-container" id="loadingSection">
+            <div class="spinner"></div>
+            <div class="loading-text">Procesando datos</div>
+            <div class="progress-bar">
+                <div class="progress" id="progressBar"></div>
+            </div>
+            <div class="status" id="statusText">Conectando con la base de datos...</div>
+        </div>
+
+        <div class="stats" id="statsSection" style="display: none;">
+            <div class="stat-card">
+                <div class="stat-number" id="totalUsers">0</div>
+                <div class="stat-label">Total Registrados</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="attendingUsers">0</div>
+                <div class="stat-label">Confirmaron Asistencia</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="notAttendingUsers">0</div>
+                <div class="stat-label">No Asistirán</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="todayRegistrations">0</div>
+                <div class="stat-label">Registros Hoy</div>
+            </div>
+        </div>
+
+        <div class="success-message" id="successSection">
+            <div class="success-icon">✅</div>
+            <h3>¡Informe Generado Exitosamente!</h3>
+            <p id="successMessage">Se han procesado <span id="processedCount">0</span> registros.</p>
+            <div>
+                <a href="#" class="download-btn" id="downloadBtn">
+                    📥 Descargar Excel
+                </a>
+                <button class="download-btn secondary-btn" onclick="window.close()">
+                    Cerrar
+                </button>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Trane Technologies © 2025 - Sistema de Gestión de Registros</p>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.10/firebase-database.js"></script>
+    <script>
+       
+        const firebaseConfig = {
+            apiKey: "AIzaSyD7e2gH7-45wi3FaVfrzzgVBc0oyIW4F58",
+            authDomain: "trfrom-b1295.firebaseapp.com",
+            databaseURL: "https://trfrom-b1295-default-rtdb.firebaseio.com",
+            projectId: "trfrom-b1295",
+            storageBucket: "trfrom-b1295.appspot.com",
+            messagingSenderId: "805241083235",
+            appId: "1:805241083235:web:580af805c75fb5c35a6f56",
+            measurementId: "G-WX6FTFHF13"
+        };
+
+       
+        firebase.initializeApp(firebaseConfig);
+        const database = firebase.database();
+
+       
+        const loadingSection = document.getElementById('loadingSection');
+        const statsSection = document.getElementById('statsSection');
+        const successSection = document.getElementById('successSection');
+        const progressBar = document.getElementById('progressBar');
+        const statusText = document.getElementById('statusText');
+        const totalUsersElement = document.getElementById('totalUsers');
+        const attendingUsersElement = document.getElementById('attendingUsers');
+        const notAttendingUsersElement = document.getElementById('notAttendingUsers');
+        const todayRegistrationsElement = document.getElementById('todayRegistrations');
+        const processedCountElement = document.getElementById('processedCount');
+        const downloadBtn = document.getElementById('downloadBtn');
+        const successMessage = document.getElementById('successMessage');
+
+      
+        let allUsers = [];
+        let excelFileUrl = null;
+
+       
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(startProcess, 1000);
+        });
+
+      
+        async function startProcess() {
+            try {
+                updateProgress(10, 'Conectando con la base de datos...');
+                
+               
+                await loadUsersData();
+                
+                updateProgress(50, 'Procesando información...');
+                
+                
+                updateStats();
+                
+                updateProgress(70, 'Generando archivo Excel...');
+                
+                
+                await generateExcel();
+                
+                updateProgress(90, 'Preparando descarga...');
+                
+               
+                setTimeout(showResults, 1000);
+                
+                updateProgress(100, '¡Proceso completado!');
+                
+            } catch (error) {
+                console.error('Error en el proceso:', error);
+                statusText.textContent = 'Error: ' + error.message;
+                statusText.style.color = '#ff6b6b';
+            }
+        }
+
+    
+        async function loadUsersData() {
+            return new Promise((resolve, reject) => {
+                database.ref("Users").once('value')
+                    .then(snapshot => {
+                        allUsers = [];
+                        snapshot.forEach(childSnapshot => {
+                            const user = childSnapshot.val();
+                            user.id = childSnapshot.key;
+                            allUsers.push(user);
+                        });
+                        resolve();
+                    })
+                    .catch(error => {
+                        reject(error);
+                    });
+            });
+        }
+
+       
+        function updateStats() {
+            const total = allUsers.length;
+            const attending = allUsers.filter(user => user.attendance === 'Si').length;
+            const notAttending = allUsers.filter(user => user.attendance === 'No').length;
+            
+           
+            const today = new Date().toDateString();
+            const todayRegistrations = allUsers.filter(user => {
+                const regDate = user.registrationDate ? new Date(user.registrationDate).toDateString() : '';
+                return regDate === today;
+            }).length;
+
+            totalUsersElement.textContent = total;
+            attendingUsersElement.textContent = attending;
+            notAttendingUsersElement.textContent = notAttending;
+            todayRegistrationsElement.textContent = todayRegistrations;
+        }
+
+       
+        async function generateExcel() {
+            return new Promise((resolve) => {
+                // Preparar datos para Excel
+                const excelData = allUsers.map(user => ({
+                    'Nombre': user.name || '',
+                    'Apellido': user.lastname || '',
+                    'Email': user.email || '',
+                    'Asistencia': user.attendance || '',
+                    'Restricción Alimentaria': user.foodRestriction || '',
+                    'Dirección': user.address || '',
+                    'País': user.country || '',
+                    'Ciudad': user.city || '',
+                    'Fecha Registro': user.registrationDate ? 
+                        new Date(user.registrationDate).toLocaleDateString('es-ES') : '',
+                    'Última Actualización': user.lastUpdate ? 
+                        new Date(user.lastUpdate).toLocaleDateString('es-ES') : ''
+                }));
+
+            
+                const wb = XLSX.utils.book_new();
+                const ws = XLSX.utils.json_to_sheet(excelData);
+
+                
+                const colWidths = [
+                    { wch: 15 }, { wch: 15 }, { wch: 25 }, { wch: 12 },
+                    { wch: 20 }, { wch: 30 }, { wch: 15 }, { wch: 15 },
+                    { wch: 15 }, { wch: 15 }
+                ];
+                ws['!cols'] = colWidths;
+
+                
+                XLSX.utils.book_append_sheet(wb, ws, 'Registros Pacto 2026');
+
+               
+                const fileName = `Pacto_2026_Informe_${new Date().toISOString().split('T')[0]}.xlsx`;
+                XLSX.writeFile(wb, fileName);
+
+                processedCountElement.textContent = allUsers.length;
+                resolve();
+            });
+        }
+
+      
+        function showResults() {
+            loadingSection.style.display = 'none';
+            statsSection.style.display = 'grid';
+            successSection.style.display = 'block';
+            
+          
+            downloadBtn.addEventListener('click', function(e) {
+                e.preventDefault();
+                //
+                generateExcel();
+            });
+        }
+
+     
+        function updateProgress(percent, message) {
+            progressBar.style.width = percent + '%';
+            statusText.textContent = message;
+        }
+
+       
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        }
+    </script>
+</body>
+
+</html>
