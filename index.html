@@ -42,21 +42,44 @@
             -webkit-text-size-adjust: 100%;
         }
 
-        body {
-            font-family: "Roboto", sans-serif;
-            font-size: 16px;
-            line-height: 1.6;
-            color: var(--dark-color);
-            background: linear-gradient(135deg, #e9eae5 0%, #d1dfe2 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 15px;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-        }
+       body {
+    font-family: "Roboto", sans-serif;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--dark-color);
+    background: linear-gradient(135deg, #e9eae5 0%, #d1dfe2 100%);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    position: relative; /* importante para el pseudo-elemento */
+    overflow: hidden; /* evita scroll por blur extendido */
+}
+
+/* Fondo con imagen y blur */
+body::before {
+    content: "";
+    position: absolute;
+    inset: 0; /* cubre todo */
+    background: url("bgheader.png") center/cover no-repeat;
+    filter: blur(8px);
+    transform: scale(1.1); /* evita bordes duros del blur */
+    z-index: -2; /* queda detrás de todo */
+}
+
+/* Capa translúcida con el degradado */
+body::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(233,234,229,0.85) 0%, rgba(209,223,226,0.85) 100%);
+    z-index: -1;
+}
+
 
         .container {
             width: 100%;
@@ -580,7 +603,7 @@
                 <img src="trane-logo.png" alt="Trane" class="logo">
             </div>
             <hr style="border: none; height: 1px; background: #ccc;">
-            <p class="event-location">Hotel Potrero de los funes - San Luis - 13 y 14 Noviembre.</p>
+            <p class="event-location">Hotel Potrero de los Funes - San Luis - 13 y 14 Noviembre.</p>
             <h2 class="registration-title">Registro de invitados</h2>
         </div>
 
