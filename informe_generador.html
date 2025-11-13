@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Pacto 2026 - Generar Informe</title>
+    <title>Master Trane 2025 Informe</title>
     <link rel="icon" href="trane-favicon.png">
    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
@@ -508,9 +508,9 @@
             ];
             ws['!cols'] = colWidths;
 
-            XLSX.utils.book_append_sheet(wb, ws, 'Registros Pacto 2026');
+            XLSX.utils.book_append_sheet(wb, ws, 'Registros');
 
-            const fileName = `Pacto_2026_Informe_${new Date().toISOString().split('T')[0]}_${Date.now()}.xlsx`;
+            const fileName = `Informe_${new Date().toISOString().split('T')[0]}_${Date.now()}.xlsx`;
             XLSX.writeFile(wb, fileName);
 
             // Mostrar notificación de éxito
