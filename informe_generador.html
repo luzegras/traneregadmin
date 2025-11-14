@@ -489,6 +489,7 @@
                 'Email': user.email || '',
                 'Asistencia': user.attendance || '',
                 'Restricción Alimentaria': user.foodRestriction || '',
+                'Estacionamiento': user.parking || '',
                 'Dirección': user.address || '',
                 'País': user.country || '',
                 'Ciudad': user.city || '',
@@ -503,7 +504,7 @@
 
             const colWidths = [
                 { wch: 15 }, { wch: 15 }, { wch: 25 }, { wch: 12 },
-                { wch: 20 }, { wch: 30 }, { wch: 15 }, { wch: 15 },
+                { wch: 20 },{ wch: 20 }, { wch: 30 }, { wch: 15 }, { wch: 15 },
                 { wch: 15 }, { wch: 15 }
             ];
             ws['!cols'] = colWidths;

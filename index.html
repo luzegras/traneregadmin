@@ -663,6 +663,17 @@
                         </datalist>
                         <div class="error" id="foodRestrictionError">Por favor ingrese su restricción alimentaria</div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="parking" class="required">Estacionamiento</label>
+                        <select id="parking" class="form-control" required>
+                            <option value="" disabled selected>Seleccione una opción</option>
+                            <option value="Si">Sí </option>
+                            <option value="No">No </option>
+                        </select>
+                        <div class="error" id="parkingError">Por favor seleccione una opción</div>
+                    </div>
+
                 </div>
 
 
@@ -877,6 +888,7 @@
                 currentData.lastname !== existingData.lastname ||
                 currentData.attendance !== existingData.attendance ||
                 currentData.foodRestriction !== existingData.foodRestriction ||
+                currentData.parking !== existingData.parking ||
                 currentData.address !== existingData.address ||
                 currentData.country !== existingData.country ||
                 currentData.city !== existingData.city
@@ -889,6 +901,7 @@
             document.getElementById('lastname').value = data.lastname || '';
             document.getElementById('attendance').value = data.attendance || '';
             document.getElementById('foodRestriction').value = data.foodRestriction || '';
+            document.getElementById('parking').value = data.parking || '';
             document.getElementById('address').value = data.address || '';
             document.getElementById('country').value = data.country || '';
             document.getElementById('city').value = data.city || '';
@@ -902,6 +915,7 @@
                 email,
                 attendance,
                 foodRestriction,
+                parking,
                 address,
                 country,
                 city
@@ -916,6 +930,7 @@
                 email: email,
                 attendance: attendance,
                 foodRestriction: foodRestriction,
+                parking: parking,
                 address: address,
                 country: country,
                 city: city,
@@ -934,6 +949,7 @@
                 email,
                 attendance,
                 foodRestriction,
+                parking,
                 address,
                 country,
                 city
@@ -947,6 +963,7 @@
                 lastname: lastname,
                 attendance: attendance,
                 foodRestriction: foodRestriction,
+                parking: parking,
                 address: address,
                 country: country,
                 city: city,
@@ -1004,6 +1021,7 @@
             const email = document.getElementById('email').value.trim();
             const attendance = document.getElementById('attendance').value;
             const foodRestriction = document.getElementById('foodRestriction').value.trim();
+            const parking = document.getElementById('parking').value;
             const address = document.getElementById('address').value.trim();
             const country = document.getElementById('country').value;
             const city = document.getElementById('city').value.trim();
@@ -1046,6 +1064,13 @@
                 hideError('foodRestriction', 'foodRestrictionError');
             }
 
+            if (!parking) {
+                showError('parking', 'parkingError');
+                isValid = false;
+            } else {
+                hideError('parking', 'parkingError');
+            }
+
             if (!address) {
                 showError('address', 'addressError');
                 isValid = false;
@@ -1084,6 +1109,7 @@
                     email,
                     attendance,
                     foodRestriction,
+                    parking,
                     address,
                     country,
                     city
@@ -1138,6 +1164,7 @@
                 const email = document.getElementById('email').value.trim();
                 const attendance = document.getElementById('attendance').value;
                 const foodRestriction = document.getElementById('foodRestriction').value.trim();
+                const parking = document.getElementById('parking').value;
                 const address = document.getElementById('address').value.trim();
                 const country = document.getElementById('country').value;
                 const city = document.getElementById('city').value.trim();
@@ -1148,6 +1175,7 @@
                     email,
                     attendance,
                     foodRestriction,
+                    parking,
                     address,
                     country,
                     city
